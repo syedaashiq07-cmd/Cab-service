@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLACKLABEL | Premium Cab Services Platform</title>
+    <meta name="description" content="Experience unmatched luxury transport. Book executive sedans, spacious SUVs, and VIP labels with live tracking, corporate accounts, and elite memberships.">
+    <!-- Premium Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+    <!-- Notification Toaster -->
+    <div id="toast-container"></div>
+
+    <div class="app-container">
+        <!-- Header / Navbar -->
+        <header class="navbar glass-panel" style="padding: 16px 24px; border-radius: 50px; margin-top: 20px;">
+            <div class="nav-logo" onclick="switchTab('showcase')">
+                <i data-lucide="crown"></i>
+                <span class="text-gold-gradient">BlackLabel</span>
+            </div>
+            
+            <nav class="nav-links">
+                <button class="nav-link-btn active" id="btn-tab-showcase" onclick="switchTab('showcase')">
+                    <i data-lucide="compass"></i> Showcase
+                </button>
+                <button class="nav-link-btn" id="btn-tab-passenger" onclick="switchTab('passenger')">
+                    <i data-lucide="map-pin"></i> Book Ride
+                </button>
+                <button class="nav-link-btn" id="btn-tab-driver" onclick="switchTab('driver')">
+                    <i data-lucide="navigation"></i> Driver Terminal
+                </button>
+                <button class="nav-link-btn" id="btn-tab-corporate" onclick="switchTab('corporate')">
+                    <i data-lucide="building-2"></i> Corporate
+                </button>
+                <button class="nav-link-btn" id="btn-tab-admin" onclick="switchTab('admin')">
+                    <i data-lucide="sliders"></i> Operations
+                </button>
+            </nav>
+
+            <div class="user-status-widget cursor-pointer" onclick="openProfileModal()">
+                <img id="header-avatar" class="user-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&h=200" alt="Profile">
+                <div style="text-align: left; display: flex; flex-direction: column;">
+                    <span id="header-username" style="font-size: 13px; font-weight: 600;">Syed Aashiq</span>
+                    <span id="header-membership" class="badge-outline" style="font-size: 9px; padding: 2px 6px; border-color: var(--color-gold); color: var(--color-gold); font-weight: 700; margin-top: 2px;">GOLD MEMBER</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- =================== TAB 1: SHOWCASE LANDING =================== -->
+        <main id="tab-showcase" class="tab-content active">
+            <section class="hero-section">
+                <div>
+                    <h5 class="hero-subtitle">Elite Fleet & Services</h5>
+                    <h1 class="hero-title">Elevate Your Journey To <span class="text-gold-gradient">First Class</span></h1>
+                    <p class="hero-description">
+                        Premium airport transfers, business travel, and personal chauffeurs across major hubs. Fully-vetted drivers, luxury vehicles, high-speed WiFi, and complimentary refreshments on every ride.
+                    </p>
+                    <div class="hero-buttons">
+                        <button class="btn-primary" onclick="switchTab('passenger')">
+                            <i data-lucide="calendar"></i> Book a Ride Now
+                        </button>
+                        <button class="btn-secondary" onclick="scrollToSection('memberships-section')">
+                            Explore Memberships
+                        </button>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="hero-glow-back"></div>
+                    <!-- Premium Mercedes S-Class Mockup Image generated using Unsplash -->
+                    <img class="hero-image" src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=600&h=380" alt="Mercedes S Class Premium Cab">
+                </div>
+            </section>
+
+            <!-- Premium Fleet -->
+            <section>
+                <h2 class="section-title">The Premium Fleet</h2>
+                <div class="grid-cards" id="fleet-showcase-grid">
+                    <!-- Loaded dynamically via app.js -->
+                </div>
+            </section>
+
+            <!-- Membership Options -->
+            <section id="memberships-section">
+                <h2 class="section-title">Exclusive Club Memberships</h2>
+                <p style="text-align: center; color: var(--color-text-secondary); max-width: 600px; margin: -20px auto 40px auto; line-height: 1.6;">
+                    Unlock priority matching, discounted fares, airport lounge passes, and complimentary premium upgrades by subscribing to a membership tier.
+                </p>
+                <div class="grid-cards" id="membership-cards-grid">
+                    <!-- Loaded dynamically via app.js -->
+                </div>
+            </section>
+
+            <!-- Brand Features Banner -->
+            <section class="glass-panel" style="margin-top: 80px; padding: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; text-align: center;">
+                <div>
+                    <div class="metric-icon-box" style="margin: 0 auto 16px auto; width: 60px; height: 60px; font-size: 24px;">
+                        <i data-lucide="shield-check"></i>
+                    </div>
+                    <h3 style="margin-bottom: 8px;">Fully Insured & Vetted</h3>
+                    <p style="font-size: 13px; color: var(--color-text-secondary);">All drivers undergo rigorous background checks, document verification, and continuous rating audits.</p>
+                </div>
+                <div>
+                    <div class="metric-icon-box" style="margin: 0 auto 16px auto; width: 60px; height: 60px; font-size: 24px;">
+                        <i data-lucide="wifi"></i>
+                    </div>
+                    <h3 style="margin-bottom: 8px;">In-Cab Connected Office</h3>
+                    <p style="font-size: 13px; color: var(--color-text-secondary);">Complimentary high-speed WiFi, USB charging blocks, premium leather seating, and climate control.</p>
+                </div>
+                <div>
+                    <div class="metric-icon-box" style="margin: 0 auto 16px auto; width: 60px; height: 60px; font-size: 24px;">
+                        <i data-lucide="badge-percent"></i>
+                    </div>
+                    <h3 style="margin-bottom: 8px;">Corporate Co-Pilot</h3>
+                    <p style="font-size: 13px; color: var(--color-text-secondary);">Flexible monthly invoicing, detailed travel registries, and employee ride accounts for corporate partners.</p>
+                </div>
+            </section>
+        </main>
+
+        <!-- =================== TAB 2: PASSENGER BOOKING & LIVE TRACKING =================== -->
+        <main id="tab-passenger" class="tab-content">
+            <h2 style="font-size: 28px; margin-bottom: 24px;">Book Premium Transport</h2>
+            <div class="booking-grid">
+                <!-- Left Side: Interactive Booking Forms or Active Ride Details -->
+                <div id="booking-sidebar" class="glass-panel" style="padding: 24px;">
+                    <!-- Normal Booking Form -->
+                    <div id="booking-form-view">
+                        <h3 style="margin-bottom: 20px; display: flex; align-items: center; gap: 8px;">
+                            <i data-lucide="navigation-2" style="color: var(--color-gold);"></i> Request Ride
+                        </h3>
+
+                        <!-- Saved Locations Quick Select -->
+                        <div class="form-group">
+                            <label class="form-label">Quick Select Saved Locations</label>
+                            <div class="saved-locations-flex" id="saved-locations-list">
+                                <!-- Loaded dynamically -->
+                            </div>
+                        </div>
+
+                        <!-- Pickup Address Input -->
+                        <div class="form-group">
+                            <label class="form-label" for="pickup-input">Pickup Location</label>
+                            <div class="input-container">
+                                <i data-lucide="circle-dot" style="color: var(--accent-green);"></i>
+                                <input type="text" id="pickup-input" class="input-field" placeholder="Enter pickup address...">
+                            </div>
+                        </div>
+
+                        <!-- Destination Address Input -->
+                        <div class="form-group">
+                            <label class="form-label" for="drop-input">Destination Location</label>
+                            <div class="input-container">
+                                <i data-lucide="map-pin" style="color: var(--accent-red);"></i>
+                                <input type="text" id="drop-input" class="input-field" placeholder="Enter drop destination...">
+                            </div>
+                        </div>
+
+                        <!-- Select Fleet Vehicle Type -->
+                        <div class="form-group">
+                            <label class="form-label">Choose Ride Category</label>
+                            <div class="vehicle-select-list" id="vehicle-booking-options">
+                                <!-- Seeded dynamically via app.js -->
+                            </div>
+                        </div>
+
+                        <!-- Coupon Promo Code -->
+                        <div class="form-group">
+                            <label class="form-label">Promotional Coupon</label>
+                            <div class="coupon-wrapper">
+                                <input type="text" id="coupon-code-input" class="coupon-input" placeholder="e.g. WELCOME50" style="text-transform: uppercase;">
+                                <button class="btn-secondary" onclick="applyCouponCode()" style="padding: 10px 16px;">Apply</button>
+                            </div>
+                            <span id="coupon-status-msg" style="font-size: 11px; margin-top: 4px; display: block;"></span>
+                        </div>
+
+                        <!-- Fare Estimation & Pricing breakdown -->
+                        <div class="glass-panel" style="padding: 16px; background: rgba(0,0,0,0.15); margin-bottom: 24px;">
+                            <div class="flex-space-between" style="margin-bottom: 8px;">
+                                <span style="font-size: 13px; color: var(--color-text-secondary);">Est. Distance:</span>
+                                <span id="summary-distance" style="font-weight: 600;">-- km</span>
+                            </div>
+                            <div class="flex-space-between" style="margin-bottom: 8px;">
+                                <span style="font-size: 13px; color: var(--color-text-secondary);">Base Fare:</span>
+                                <span id="summary-base-price" style="font-weight: 600;">₹ --</span>
+                            </div>
+                            <div class="flex-space-between" style="margin-bottom: 8px; color: var(--accent-green); display: none;" id="coupon-discount-row">
+                                <span style="font-size: 13px;">Coupon Discount:</span>
+                                <span id="summary-discount-val">- ₹0.00</span>
+                            </div>
+                            <div class="flex-space-between" style="margin-bottom: 8px; color: var(--color-gold);" id="membership-discount-row">
+                                <span style="font-size: 13px;">Gold Member 10% Off:</span>
+                                <span id="summary-membership-discount-val">- ₹0.00</span>
+                            </div>
+                            <div class="flex-space-between" style="border-top: 1px solid var(--border-color); padding-top: 8px; margin-top: 8px;">
+                                <span style="font-size: 15px; font-weight: 700;">Final Estimated Fare:</span>
+                                <span id="summary-final-price" style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: var(--color-gold);">₹ --</span>
+                            </div>
+                        </div>
+
+                        <!-- Payment Method selection -->
+                        <div class="form-group">
+                            <label class="form-label">Payment Method</label>
+                            <select id="payment-method-select" class="coupon-input" style="width: 100%; border: 1px solid var(--border-color);">
+                                <option value="UPI">UPI (GooglePay/PhonePe)</option>
+                                <option value="Card">Premium Credit/Debit Card</option>
+                                <option value="Wallet">BlackLabel Digital Wallet</option>
+                                <option value="Cash">Cash to Chauffeur</option>
+                            </select>
+                        </div>
+
+                        <!-- Book Button -->
+                        <button class="btn-primary" onclick="initiateCabBooking()" style="width: 100%; justify-content: center; padding: 14px 0; font-size: 16px;">
+                            <i data-lucide="check-circle"></i> Confirm Booking
+                        </button>
+                    </div>
+
+                    <!-- Active Ride Tracking Simulator Sidebar -->
+                    <div id="tracking-sidebar-view" style="display: none;">
+                        <div class="ride-status-container">
+                            <div class="ride-status-header">
+                                <div>
+                                    <h4 id="active-ride-title" style="font-size: 18px;">Tracking Active Ride</h4>
+                                    <span id="active-ride-id" style="font-size: 11px; color: var(--color-text-muted);">b-xxxx-xxxx</span>
+                                </div>
+                                <div class="status-badge" id="active-ride-badge">Requested</div>
+                            </div>
+
+                            <!-- Real-time timeline state -->
+                            <div class="status-path-container">
+                                <div class="status-node active" id="node-requested">
+                                    <div class="status-node-dot">1</div>
+                                    Requested
+                                </div>
+                                <div class="status-node" id="node-assigned">
+                                    <div class="status-node-dot">2</div>
+                                    Assigned
+                                </div>
+                                <div class="status-node" id="node-arriving">
+                                    <div class="status-node-dot">3</div>
+                                    Arriving
+                                </div>
+                                <div class="status-node" id="node-started">
+                                    <div class="status-node-dot">4</div>
+                                    Started
+                                </div>
+                                <div class="status-node" id="node-completed">
+                                    <div class="status-node-dot">5</div>
+                                    Arrived
+                                </div>
+                            </div>
+
+                            <!-- Live speed & metrics card -->
+                            <div class="glass-panel" style="padding: 16px; background: rgba(0, 240, 255, 0.03); border-color: rgba(0, 240, 255, 0.15); display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
+                                <div>
+                                    <span style="font-size: 11px; color: var(--color-text-secondary); display: block;">Simulated Speed</span>
+                                    <span id="live-speed" style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: var(--accent-cyan);">0 km/h</span>
+                                </div>
+                                <div>
+                                    <span style="font-size: 11px; color: var(--color-text-secondary); display: block;">Chauffeur Heading</span>
+                                    <span id="live-heading" style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: var(--accent-cyan);">North</span>
+                                </div>
+                            </div>
+
+                            <!-- Driver Partner Card -->
+                            <div class="driver-info-panel" id="active-ride-driver-card">
+                                <img id="active-driver-avatar" class="driver-info-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&h=200" alt="Driver">
+                                <div style="flex-grow: 1;">
+                                    <h4 id="active-driver-name">Karthik Raja</h4>
+                                    <div class="flex-gap-12" style="margin-top: 2px;">
+                                        <span class="badge-outline" style="border-color: var(--color-gold); color: var(--color-gold); font-size: 10px; font-weight: bold;" id="active-driver-code">DRV-1002</span>
+                                        <span style="font-size: 12px; color: var(--color-text-secondary); display: flex; align-items: center; gap: 4px;">
+                                            <i data-lucide="star" style="width: 12px; height: 12px; fill: var(--color-gold); color: var(--color-gold);"></i>
+                                            <span id="active-driver-rating">4.85</span>
+                                        </span>
+                                    </div>
+                                    <span id="active-vehicle-info" style="font-size: 12px; color: var(--color-text-secondary); margin-top: 4px; display: block;">Mercedes-Benz E-Class • Black</span>
+                                </div>
+                            </div>
+
+                            <!-- Controls for simulation speed up (manual step-through) -->
+                            <div style="border-top: 1px solid var(--border-color); padding-top: 16px; display: flex; flex-direction: column; gap: 10px;">
+                                <span style="font-size: 11px; color: var(--color-text-muted);">SIMULATOR CONTROLS:</span>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                                    <button class="btn-secondary" onclick="stepSimulateRide()" id="btn-step-sim" style="padding: 8px 12px; font-size: 12px; justify-content: center;">
+                                        <i data-lucide="fast-forward"></i> Fast Forward
+                                    </button>
+                                    <button class="btn-secondary" onclick="cancelCurrentActiveRide()" id="btn-cancel-sim" style="padding: 8px 12px; font-size: 12px; justify-content: center; color: var(--accent-red); border-color: rgba(255, 59, 48, 0.2);">
+                                        <i data-lucide="x"></i> Cancel Ride
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Side: Real-time Map Simulator Canvas -->
+                <div class="glass-panel map-canvas-container">
+                    <canvas id="simulator-map-canvas" width="600" height="480" style="display: block; width: 100%; height: 100%;"></canvas>
+                    
+                    <!-- Floating GPS HUD -->
+                    <div class="map-overlay-panel glass-panel" style="background: rgba(9, 9, 12, 0.85); max-width: 280px; top: 16px; bottom: auto; left: 16px; border-radius: 8px; border-color: rgba(255, 255, 255, 0.12);">
+                        <h4 style="font-size: 12px; text-transform: uppercase; color: var(--color-gold); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+                            <i data-lucide="radio" style="width: 12px; height: 12px; animation: pulseGlow 1s infinite alternate;"></i> GPS Telemetry
+                        </h4>
+                        <div style="font-family: monospace; font-size: 11px; color: var(--color-text-secondary); line-height: 1.4;">
+                            Lat: <span id="hud-lat">13.0440</span><br>
+                            Lng: <span id="hud-lng">80.2370</span><br>
+                            Active Cabs online: <span id="hud-cabs-online" style="color: var(--accent-green);">2</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- =================== TAB 3: DRIVER PORTAL =================== -->
+        <main id="tab-driver" class="tab-content">
+            <div class="driver-portal-container">
+                <!-- Left: Driver Actions & Controls -->
+                <div class="glass-panel" style="padding: 24px;">
+                    <div class="flex-space-between" style="border-bottom: 1px solid var(--border-color); padding-bottom: 16px; margin-bottom: 20px;">
+                        <div>
+                            <h3 id="driver-portal-name">Driver Partner Console</h3>
+                            <span id="driver-portal-code" class="badge-outline" style="margin-top: 4px; display: inline-block;">DRV-1002</span>
+                        </div>
+                        <div>
+                            <label class="flex-space-between" style="gap: 10px; cursor: pointer;">
+                                <span id="driver-online-lbl" style="font-weight: 700; color: var(--accent-green);">ONLINE</span>
+                                <input type="checkbox" id="driver-online-toggle" checked onchange="toggleDriverAvailability()" style="width: 20px; height: 20px; accent-color: var(--accent-green);">
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Statistics Grid -->
+                    <h4 style="font-size: 14px; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">Performance metrics</h4>
+                    <div class="driver-stats-grid">
+                        <div class="glass-panel driver-stat-card">
+                            <div class="driver-stat-val">4.92</div>
+                            <div class="driver-stat-lbl">Rating Score</div>
+                        </div>
+                        <div class="glass-panel driver-stat-card">
+                            <div class="driver-stat-val">₹4,250</div>
+                            <div class="driver-stat-lbl">Today's Earnings</div>
+                        </div>
+                        <div class="glass-panel driver-stat-card">
+                            <div class="driver-stat-val">96%</div>
+                            <div class="driver-stat-lbl">Acceptance</div>
+                        </div>
+                    </div>
+
+                    <!-- Fleet Vehicle Information -->
+                    <div class="glass-panel" style="padding: 16px; display: flex; gap: 16px; align-items: center; background: rgba(0,0,0,0.1); margin-top: 24px;">
+                        <i data-lucide="car" style="color: var(--color-gold); width: 32px; height: 32px;"></i>
+                        <div>
+                            <h4 style="font-size: 14px;">Assigned Premium Vehicle</h4>
+                            <span style="font-size: 13px; color: var(--color-text-secondary);" id="driver-assigned-car-txt">Mercedes-Benz E-Class (TN-01-BS-7777)</span>
+                        </div>
+                    </div>
+
+                    <!-- Incoming Booking Notification Box (Simulated request acceptor) -->
+                    <div id="incoming-booking-alert" class="glass-panel booking-request-card" style="margin-top: 24px; display: none;">
+                        <h4 style="color: var(--color-gold); font-size: 16px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+                            <i data-lucide="bell-ring" style="animation: pulseGlow 1s infinite alternate;"></i> Incoming Luxury Ride Request!
+                        </h4>
+                        <div style="font-size: 13px; color: var(--color-text-secondary); margin-bottom: 16px; line-height: 1.4;">
+                            <strong>Pickup:</strong> <span id="alert-pickup">Home (T-Nagar)</span><br>
+                            <strong>Drop:</strong> <span id="alert-drop">Chennai Airport</span><br>
+                            <strong>Est. Fare:</strong> <span id="alert-fare" style="color: #fff; font-weight: bold;">₹450</span> • <strong>Est. Distance:</strong> <span id="alert-dist">8.5 km</span>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <button class="btn-primary" onclick="driverAcceptRide()" style="flex-grow: 1; padding: 10px 0; justify-content: center;">Accept Ride</button>
+                            <button class="btn-secondary" onclick="driverRejectRide()" style="color: var(--accent-red); border-color: rgba(255, 59, 48, 0.2); padding: 10px 20px;">Decline</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Active Trip Log inside driver module -->
+                <div class="glass-panel" style="padding: 24px;">
+                    <h3>Today's Job History</h3>
+                    <div class="history-list" id="driver-ride-history-list">
+                        <!-- Loaded dynamically -->
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- =================== TAB 4: CORPORATE TRAVEL =================== -->
+        <main id="tab-corporate" class="tab-content">
+            <h2 style="font-size: 28px; margin-bottom: 8px;">Corporate Co-Pilot</h2>
+            <p style="color: var(--color-text-secondary); margin-bottom: 24px;">Link your account with corporate entities for automatic monthly billing, priority executive transport, and reporting.</p>
+            
+            <div class="driver-portal-container">
+                <!-- Company Status / Registration -->
+                <div class="glass-panel" style="padding: 24px;">
+                    <h3>Corporate Registry</h3>
+                    
+                    <div id="corporate-unregistered-view">
+                        <p style="font-size: 13px; color: var(--color-text-secondary); margin: 12px 0 20px 0; line-height: 1.5;">
+                            You are not currently linked to a corporate billing profile. Register your corporate email or link to an existing verified company profile.
+                        </p>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="corp-select">Select Company Entity</label>
+                            <select id="corp-select" class="coupon-input" style="width: 100%; border: 1px solid var(--border-color);">
+                                <!-- Populated dynamically -->
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="corp-email">Work Email</label>
+                            <div class="input-container">
+                                <i data-lucide="mail"></i>
+                                <input type="email" id="corp-email" class="input-field" placeholder="employee@company.com">
+                            </div>
+                        </div>
+
+                        <button class="btn-primary" onclick="registerCorporateProfile()" style="width: 100%; justify-content: center;">
+                            <i data-lucide="link"></i> Link Corporate Account
+                        </button>
+                    </div>
+
+                    <div id="corporate-registered-view" style="display: none;">
+                        <div style="border: 1px solid rgba(0, 230, 118, 0.2); background: rgba(0, 230, 118, 0.05); padding: 16px; border-radius: 12px; display: flex; gap: 12px; align-items: center; margin: 16px 0;">
+                            <i data-lucide="shield-check" style="color: var(--accent-green); width: 32px; height: 32px;"></i>
+                            <div>
+                                <h4 style="color: var(--accent-green);">Account Connected</h4>
+                                <span style="font-size: 12px; color: var(--color-text-secondary);">Your rides can now be billed directly to your company account.</span>
+                            </div>
+                        </div>
+
+                        <div class="glass-panel" style="padding: 16px; background: rgba(0,0,0,0.15); margin-bottom: 24px;">
+                            <div class="flex-space-between" style="margin-bottom: 8px;">
+                                <span style="font-size: 13px; color: var(--color-text-secondary);">Company:</span>
+                                <span id="corp-info-name" style="font-weight: 700;">Google India Pvt Ltd</span>
+                            </div>
+                            <div class="flex-space-between" style="margin-bottom: 8px;">
+                                <span style="font-size: 13px; color: var(--color-text-secondary);">Billing Cycle:</span>
+                                <span>Monthly Net-30 Invoice</span>
+                            </div>
+                            <div class="flex-space-between" style="margin-bottom: 8px;">
+                                <span style="font-size: 13px; color: var(--color-text-secondary);">Allowance:</span>
+                                <span style="color: var(--accent-green); font-weight: bold;">Unlimited Executive Rides</span>
+                            </div>
+                        </div>
+
+                        <button class="btn-secondary" onclick="unlinkCorporateProfile()" style="width: 100%; justify-content: center; color: var(--accent-red); border-color: rgba(255,59,48,0.2);">
+                            <i data-lucide="unlink"></i> Unlink Company
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Corporate Rules & Benefits Showcase -->
+                <div class="glass-panel" style="padding: 24px;">
+                    <h3>Corporate Member Perks</h3>
+                    <ul class="benefits-list" style="margin-top: 16px;">
+                        <li>
+                            <i data-lucide="badge-percent"></i>
+                            <div>
+                                <strong>10% Flat Corporate Discount</strong>
+                                <span style="font-size: 12px; color: var(--color-text-muted); display: block;">Applies automatically when billing company account.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <i data-lucide="clock"></i>
+                            <div>
+                                <strong>Guaranteed 5-Min Priority Match</strong>
+                                <span style="font-size: 12px; color: var(--color-text-muted); display: block;">Skip standard matching queues entirely.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <i data-lucide="receipt"></i>
+                            <div>
+                                <strong>Auto Invoicing & Expense Receipts</strong>
+                                <span style="font-size: 12px; color: var(--color-text-muted); display: block;">Direct integration with SAP, Concur, or PDF downloads.</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+
+        <!-- =================== TAB 5: ADMIN / OPERATIONS PANEL =================== -->
+        <main id="tab-admin" class="tab-content">
+            <h2 style="font-size: 28px; margin-bottom: 24px;">Operations Dashboard</h2>
+            
+            <!-- Dashboard Stats Metrics -->
+            <div class="admin-metrics-grid">
+                <div class="glass-panel metric-card">
+                    <div class="metric-icon-box"><i data-lucide="banknote"></i></div>
+                    <div>
+                        <div class="metric-num" id="metric-revenue">₹12,450.00</div>
+                        <div class="metric-lbl">Total Gross Revenue</div>
+                    </div>
+                </div>
+                <div class="glass-panel metric-card">
+                    <div class="metric-icon-box"><i data-lucide="car"></i></div>
+                    <div>
+                        <div class="metric-num" id="metric-active-cabs">2</div>
+                        <div class="metric-lbl">Active Drivers Online</div>
+                    </div>
+                </div>
+                <div class="glass-panel metric-card">
+                    <div class="metric-icon-box"><i data-lucide="shopping-bag"></i></div>
+                    <div>
+                        <div class="metric-num" id="metric-bookings">3</div>
+                        <div class="metric-lbl">Total Booking Logs</div>
+                    </div>
+                </div>
+                <div class="glass-panel metric-card">
+                    <div class="metric-icon-box"><i data-lucide="ticket"></i></div>
+                    <div>
+                        <div class="metric-num" id="metric-tickets">1</div>
+                        <div class="metric-lbl">Open Support Tickets</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="driver-portal-container">
+                <!-- Support Tickets Resolution Panel -->
+                <div class="glass-panel" style="padding: 24px;">
+                    <h3>Open Support Tickets</h3>
+                    <div id="admin-tickets-container" style="margin-top: 16px; display: flex; flex-direction: column; gap: 12px;">
+                        <!-- Populated dynamically via app.js -->
+                    </div>
+                </div>
+
+                <!-- Fleet Fleet Table and Status Log -->
+                <div class="glass-panel" style="padding: 24px;">
+                    <h3>Real-time Fleet Status</h3>
+                    <div style="margin-top: 16px; overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 13px;">
+                            <thead>
+                                <tr style="border-bottom: 1px solid var(--border-color); color: var(--color-text-secondary);">
+                                    <th style="padding: 10px 0;">Reg No</th>
+                                    <th>Model Category</th>
+                                    <th>Driver Code</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-fleet-table-body">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- =================== CUSTOMER PROFILE MODAL WINDOW =================== -->
+    <div id="profile-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); z-index: 1000; justify-content: center; align-items: center;">
+        <div class="glass-panel" style="width: 100%; max-width: 650px; padding: 32px; border-radius: 20px; position: relative;">
+            <button onclick="closeProfileModal()" style="position: absolute; top: 20px; right: 20px; background: transparent; border: none; color: #fff; cursor: pointer;">
+                <i data-lucide="x" style="width: 24px; height: 24px;"></i>
+            </button>
+            
+            <h2 style="font-size: 24px; margin-bottom: 24px; display: flex; align-items: center; gap: 8px;">
+                <i data-lucide="user" style="color: var(--color-gold);"></i> Customer Account
+            </h2>
+
+            <div class="customer-profile-grid">
+                <!-- Profile details -->
+                <div>
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <img id="profile-avatar" src="" style="width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 3px solid var(--color-gold); margin-bottom: 12px;">
+                        <h3 id="profile-name">Syed Aashiq</h3>
+                        <span id="profile-email" style="font-size: 12px; color: var(--color-text-secondary);">aashiq@premiumcabs.com</span>
+                    </div>
+
+                    <div class="glass-panel" style="padding: 16px; background: rgba(0,0,0,0.15);">
+                        <div class="flex-space-between" style="margin-bottom: 8px;">
+                            <span style="font-size: 12px; color: var(--color-text-secondary);">Rewards wallet:</span>
+                            <span id="profile-points" style="font-weight: 700; color: var(--color-gold);">170 Points</span>
+                        </div>
+                        <div class="flex-space-between">
+                            <span style="font-size: 12px; color: var(--color-text-secondary);">Current Tier:</span>
+                            <span id="profile-tier" style="font-weight: 700; color: var(--color-gold);">Gold Member</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ride History List -->
+                <div>
+                    <h3 style="font-size: 16px;">Booking & Ride History</h3>
+                    <div class="history-list" id="profile-bookings-list">
+                        <!-- Loaded dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Support Ticket Creator -->
+            <div style="border-top: 1px solid var(--border-color); margin-top: 24px; padding-top: 20px;">
+                <h4 style="font-size: 14px; margin-bottom: 12px;">Need Help? File an Operations Support Ticket</h4>
+                <div style="display: grid; grid-template-columns: 1fr 2fr auto; gap: 8px;">
+                    <input type="text" id="ticket-subject" class="coupon-input" placeholder="Subject..." style="font-size: 12px;">
+                    <input type="text" id="ticket-message" class="coupon-input" placeholder="Explain your issue..." style="font-size: 12px;">
+                    <button class="btn-primary" onclick="submitSupportTicket()" style="padding: 0 16px; font-size: 12px;">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Entry Modules -->
+    <script src="db.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
