@@ -1,609 +1,1237 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BLACKLABEL | Premium Cab Services Platform</title>
-    <meta name="description" content="Experience unmatched luxury transport. Book executive sedans, spacious SUVs, and VIP labels with live tracking, corporate accounts, and elite memberships.">
-    <!-- Premium Stylesheet -->
-    <link rel="stylesheet" href="styles.css">
+    <title>Premium Cab Service | Premium Taxi in Pondicherry & Kottakuppam</title>
+    <meta name="description" content="Experience premium luxury transport in Pondicherry, Kottakuppam & Auroville. Book 4-seater and 7-seater cabs, airport transfers, outstation tours, and wedding transport. Safe, clean, and 24/7 available.">
+    <meta name="keywords" content="Premium Cab Service, Taxi Pondicherry, Cab Kottakuppam, Airport Taxi Chennai, Auroville Cabs, Swift Dzire Rent, Innova Rent Pondicherry">
+    
+    <!-- Open Graph Tags -->
+    <meta property="og:title" content="Premium Cab Service | Luxury Taxi in Pondicherry & Kottakuppam">
+    <meta property="og:description" content="Book executive 4-seater and 7-seater cabs. Premium, clean, and 24/7 available with professional drivers.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://wa.me/919361469552">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        royal: '#2563EB',
+                        'royal-dark': '#1D4ED8',
+                        emerald: '#10B981',
+                        'emerald-dark': '#059669',
+                        cta: '#F97316',
+                        'cta-dark': '#EA580C',
+                        grey: '#6B7280',
+                        textDark: '#111827'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Poppins', 'sans-serif']
+                    },
+                    boxShadow: {
+                        premium: '0 10px 30px -10px rgba(37, 99, 235, 0.12)',
+                        luxury: '0 20px 40px -15px rgba(0, 0, 0, 0.08)',
+                        goldGlow: '0 10px 25px -5px rgba(249, 115, 22, 0.3)'
+                    }
+                }
+            }
+        }
+    </script>
+    
     <!-- Lucide Icons CDN -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Custom Styles -->
+    <style>
+        .glow-blob {
+            filter: blur(80px);
+            animation: floatBlob 8s infinite alternate ease-in-out;
+        }
+        @keyframes floatBlob {
+            0% { transform: translateY(0px) scale(1); }
+            100% { transform: translateY(20px) scale(1.1); }
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F3F4F6;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D1D5DB;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2563EB;
+        }
+        /* Success message checkmark scale */
+        @keyframes scaleIn {
+            from { transform: scale(0); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .animate-scale-in {
+            animation: scaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+    </style>
 </head>
-<body>
+<body class="bg-white text-textDark font-sans relative overflow-x-hidden">
 
-    <!-- Notification Toaster -->
-    <div id="toast-container"></div>
-
-    <div class="app-container">
-        <!-- Header / Navbar -->
-        <header class="navbar glass-panel" style="padding: 16px 24px; border-radius: 50px; margin-top: 20px;">
-            <div class="nav-logo" onclick="switchTab('showcase')">
-                <i data-lucide="crown"></i>
-                <span class="text-gold-gradient">BlackLabel</span>
+    <!-- =================== LOADING SCREEN =================== -->
+    <div id="loading-screen" class="fixed inset-0 bg-white z-[9999] flex flex-col justify-center items-center transition-all duration-700">
+        <div class="relative flex flex-col items-center">
+            <!-- Glowing Car Ring -->
+            <div class="w-20 h-20 border-4 border-royal/10 border-t-royal rounded-full animate-spin"></div>
+            <!-- Logo Icon inside -->
+            <div class="absolute top-6">
+                <i data-lucide="crown" class="w-8 h-8 text-royal animate-pulse"></i>
             </div>
-            
-            <nav class="nav-links">
-                <button class="nav-link-btn active" id="btn-tab-showcase" onclick="switchTab('showcase')">
-                    <i data-lucide="compass"></i> Showcase
-                </button>
-                <button class="nav-link-btn" id="btn-tab-passenger" onclick="switchTab('passenger')">
-                    <i data-lucide="map-pin"></i> Book Ride
-                </button>
-                <button class="nav-link-btn" id="btn-tab-driver" onclick="switchTab('driver')">
-                    <i data-lucide="navigation"></i> Driver Terminal
-                </button>
-                <button class="nav-link-btn" id="btn-tab-corporate" onclick="switchTab('corporate')">
-                    <i data-lucide="building-2"></i> Corporate
-                </button>
-                <button class="nav-link-btn" id="btn-tab-admin" onclick="switchTab('admin')">
-                    <i data-lucide="sliders"></i> Operations
-                </button>
-            </nav>
-
-            <div class="user-status-widget cursor-pointer" onclick="openProfileModal()">
-                <img id="header-avatar" class="user-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&h=200" alt="Profile">
-                <div style="text-align: left; display: flex; flex-direction: column;">
-                    <span id="header-username" style="font-size: 13px; font-weight: 600;">Syed Aashiq</span>
-                    <span id="header-membership" class="badge-outline" style="font-size: 9px; padding: 2px 6px; border-color: var(--color-gold); color: var(--color-gold); font-weight: 700; margin-top: 2px;">GOLD MEMBER</span>
-                </div>
-            </div>
-        </header>
-
-        <!-- =================== TAB 1: SHOWCASE LANDING =================== -->
-        <main id="tab-showcase" class="tab-content active">
-            <section class="hero-section">
-                <div>
-                    <h5 class="hero-subtitle">Elite Fleet & Services</h5>
-                    <h1 class="hero-title">Elevate Your Journey To <span class="text-gold-gradient">First Class</span></h1>
-                    <p class="hero-description">
-                        Premium airport transfers, business travel, and personal chauffeurs across major hubs. Fully-vetted drivers, luxury vehicles, high-speed WiFi, and complimentary refreshments on every ride.
-                    </p>
-                    <div class="hero-buttons">
-                        <button class="btn-primary" onclick="switchTab('passenger')">
-                            <i data-lucide="calendar"></i> Book a Ride Now
-                        </button>
-                        <button class="btn-secondary" onclick="scrollToSection('memberships-section')">
-                            Explore Memberships
-                        </button>
-                    </div>
-                </div>
-                <div class="hero-visual">
-                    <div class="hero-glow-back"></div>
-                    <!-- Premium Mercedes S-Class Mockup Image generated using Unsplash -->
-                    <img class="hero-image" src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=600&h=380" alt="Mercedes S Class Premium Cab">
-                </div>
-            </section>
-
-            <!-- Premium Fleet -->
-            <section>
-                <h2 class="section-title">The Premium Fleet</h2>
-                <div class="grid-cards" id="fleet-showcase-grid">
-                    <!-- Loaded dynamically via app.js -->
-                </div>
-            </section>
-
-            <!-- Membership Options -->
-            <section id="memberships-section">
-                <h2 class="section-title">Exclusive Club Memberships</h2>
-                <p style="text-align: center; color: var(--color-text-secondary); max-width: 600px; margin: -20px auto 40px auto; line-height: 1.6;">
-                    Unlock priority matching, discounted fares, airport lounge passes, and complimentary premium upgrades by subscribing to a membership tier.
-                </p>
-                <div class="grid-cards" id="membership-cards-grid">
-                    <!-- Loaded dynamically via app.js -->
-                </div>
-            </section>
-
-            <!-- Brand Features Banner -->
-            <section class="glass-panel" style="margin-top: 80px; padding: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; text-align: center;">
-                <div>
-                    <div class="metric-icon-box" style="margin: 0 auto 16px auto; width: 60px; height: 60px; font-size: 24px;">
-                        <i data-lucide="shield-check"></i>
-                    </div>
-                    <h3 style="margin-bottom: 8px;">Fully Insured & Vetted</h3>
-                    <p style="font-size: 13px; color: var(--color-text-secondary);">All drivers undergo rigorous background checks, document verification, and continuous rating audits.</p>
-                </div>
-                <div>
-                    <div class="metric-icon-box" style="margin: 0 auto 16px auto; width: 60px; height: 60px; font-size: 24px;">
-                        <i data-lucide="wifi"></i>
-                    </div>
-                    <h3 style="margin-bottom: 8px;">In-Cab Connected Office</h3>
-                    <p style="font-size: 13px; color: var(--color-text-secondary);">Complimentary high-speed WiFi, USB charging blocks, premium leather seating, and climate control.</p>
-                </div>
-                <div>
-                    <div class="metric-icon-box" style="margin: 0 auto 16px auto; width: 60px; height: 60px; font-size: 24px;">
-                        <i data-lucide="badge-percent"></i>
-                    </div>
-                    <h3 style="margin-bottom: 8px;">Corporate Co-Pilot</h3>
-                    <p style="font-size: 13px; color: var(--color-text-secondary);">Flexible monthly invoicing, detailed travel registries, and employee ride accounts for corporate partners.</p>
-                </div>
-            </section>
-        </main>
-
-        <!-- =================== TAB 2: PASSENGER BOOKING & LIVE TRACKING =================== -->
-        <main id="tab-passenger" class="tab-content">
-            <h2 style="font-size: 28px; margin-bottom: 24px;">Book Premium Transport</h2>
-            <div class="booking-grid">
-                <!-- Left Side: Interactive Booking Forms or Active Ride Details -->
-                <div id="booking-sidebar" class="glass-panel" style="padding: 24px;">
-                    <!-- Normal Booking Form -->
-                    <div id="booking-form-view">
-                        <h3 style="margin-bottom: 20px; display: flex; align-items: center; gap: 8px;">
-                            <i data-lucide="navigation-2" style="color: var(--color-gold);"></i> Request Ride
-                        </h3>
-
-                        <!-- Saved Locations Quick Select -->
-                        <div class="form-group">
-                            <label class="form-label">Quick Select Saved Locations</label>
-                            <div class="saved-locations-flex" id="saved-locations-list">
-                                <!-- Loaded dynamically -->
-                            </div>
-                        </div>
-
-                        <!-- Pickup Address Input -->
-                        <div class="form-group">
-                            <label class="form-label" for="pickup-input">Pickup Location</label>
-                            <div class="input-container">
-                                <i data-lucide="circle-dot" style="color: var(--accent-green);"></i>
-                                <input type="text" id="pickup-input" class="input-field" placeholder="Enter pickup address...">
-                            </div>
-                        </div>
-
-                        <!-- Destination Address Input -->
-                        <div class="form-group">
-                            <label class="form-label" for="drop-input">Destination Location</label>
-                            <div class="input-container">
-                                <i data-lucide="map-pin" style="color: var(--accent-red);"></i>
-                                <input type="text" id="drop-input" class="input-field" placeholder="Enter drop destination...">
-                            </div>
-                        </div>
-
-                        <!-- Select Fleet Vehicle Type -->
-                        <div class="form-group">
-                            <label class="form-label">Choose Ride Category</label>
-                            <div class="vehicle-select-list" id="vehicle-booking-options">
-                                <!-- Seeded dynamically via app.js -->
-                            </div>
-                        </div>
-
-                        <!-- Coupon Promo Code -->
-                        <div class="form-group">
-                            <label class="form-label">Promotional Coupon</label>
-                            <div class="coupon-wrapper">
-                                <input type="text" id="coupon-code-input" class="coupon-input" placeholder="e.g. WELCOME50" style="text-transform: uppercase;">
-                                <button class="btn-secondary" onclick="applyCouponCode()" style="padding: 10px 16px;">Apply</button>
-                            </div>
-                            <span id="coupon-status-msg" style="font-size: 11px; margin-top: 4px; display: block;"></span>
-                        </div>
-
-                        <!-- Fare Estimation & Pricing breakdown -->
-                        <div class="glass-panel" style="padding: 16px; background: rgba(0,0,0,0.15); margin-bottom: 24px;">
-                            <div class="flex-space-between" style="margin-bottom: 8px;">
-                                <span style="font-size: 13px; color: var(--color-text-secondary);">Est. Distance:</span>
-                                <span id="summary-distance" style="font-weight: 600;">-- km</span>
-                            </div>
-                            <div class="flex-space-between" style="margin-bottom: 8px;">
-                                <span style="font-size: 13px; color: var(--color-text-secondary);">Base Fare:</span>
-                                <span id="summary-base-price" style="font-weight: 600;">₹ --</span>
-                            </div>
-                            <div class="flex-space-between" style="margin-bottom: 8px; color: var(--accent-green); display: none;" id="coupon-discount-row">
-                                <span style="font-size: 13px;">Coupon Discount:</span>
-                                <span id="summary-discount-val">- ₹0.00</span>
-                            </div>
-                            <div class="flex-space-between" style="margin-bottom: 8px; color: var(--color-gold);" id="membership-discount-row">
-                                <span style="font-size: 13px;">Gold Member 10% Off:</span>
-                                <span id="summary-membership-discount-val">- ₹0.00</span>
-                            </div>
-                            <div class="flex-space-between" style="border-top: 1px solid var(--border-color); padding-top: 8px; margin-top: 8px;">
-                                <span style="font-size: 15px; font-weight: 700;">Final Estimated Fare:</span>
-                                <span id="summary-final-price" style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: var(--color-gold);">₹ --</span>
-                            </div>
-                        </div>
-
-                        <!-- Payment Method selection -->
-                        <div class="form-group">
-                            <label class="form-label">Payment Method</label>
-                            <select id="payment-method-select" class="coupon-input" style="width: 100%; border: 1px solid var(--border-color);">
-                                <option value="UPI">UPI (GooglePay/PhonePe)</option>
-                                <option value="Card">Premium Credit/Debit Card</option>
-                                <option value="Wallet">BlackLabel Digital Wallet</option>
-                                <option value="Cash">Cash to Chauffeur</option>
-                            </select>
-                        </div>
-
-                        <!-- Book Button -->
-                        <button class="btn-primary" onclick="initiateCabBooking()" style="width: 100%; justify-content: center; padding: 14px 0; font-size: 16px;">
-                            <i data-lucide="check-circle"></i> Confirm Booking
-                        </button>
-                    </div>
-
-                    <!-- Active Ride Tracking Simulator Sidebar -->
-                    <div id="tracking-sidebar-view" style="display: none;">
-                        <div class="ride-status-container">
-                            <div class="ride-status-header">
-                                <div>
-                                    <h4 id="active-ride-title" style="font-size: 18px;">Tracking Active Ride</h4>
-                                    <span id="active-ride-id" style="font-size: 11px; color: var(--color-text-muted);">b-xxxx-xxxx</span>
-                                </div>
-                                <div class="status-badge" id="active-ride-badge">Requested</div>
-                            </div>
-
-                            <!-- Real-time timeline state -->
-                            <div class="status-path-container">
-                                <div class="status-node active" id="node-requested">
-                                    <div class="status-node-dot">1</div>
-                                    Requested
-                                </div>
-                                <div class="status-node" id="node-assigned">
-                                    <div class="status-node-dot">2</div>
-                                    Assigned
-                                </div>
-                                <div class="status-node" id="node-arriving">
-                                    <div class="status-node-dot">3</div>
-                                    Arriving
-                                </div>
-                                <div class="status-node" id="node-started">
-                                    <div class="status-node-dot">4</div>
-                                    Started
-                                </div>
-                                <div class="status-node" id="node-completed">
-                                    <div class="status-node-dot">5</div>
-                                    Arrived
-                                </div>
-                            </div>
-
-                            <!-- Live speed & metrics card -->
-                            <div class="glass-panel" style="padding: 16px; background: rgba(0, 240, 255, 0.03); border-color: rgba(0, 240, 255, 0.15); display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
-                                <div>
-                                    <span style="font-size: 11px; color: var(--color-text-secondary); display: block;">Simulated Speed</span>
-                                    <span id="live-speed" style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: var(--accent-cyan);">0 km/h</span>
-                                </div>
-                                <div>
-                                    <span style="font-size: 11px; color: var(--color-text-secondary); display: block;">Chauffeur Heading</span>
-                                    <span id="live-heading" style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: var(--accent-cyan);">North</span>
-                                </div>
-                            </div>
-
-                            <!-- Driver Partner Card -->
-                            <div class="driver-info-panel" id="active-ride-driver-card">
-                                <img id="active-driver-avatar" class="driver-info-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&h=200" alt="Driver">
-                                <div style="flex-grow: 1;">
-                                    <h4 id="active-driver-name">Karthik Raja</h4>
-                                    <div class="flex-gap-12" style="margin-top: 2px;">
-                                        <span class="badge-outline" style="border-color: var(--color-gold); color: var(--color-gold); font-size: 10px; font-weight: bold;" id="active-driver-code">DRV-1002</span>
-                                        <span style="font-size: 12px; color: var(--color-text-secondary); display: flex; align-items: center; gap: 4px;">
-                                            <i data-lucide="star" style="width: 12px; height: 12px; fill: var(--color-gold); color: var(--color-gold);"></i>
-                                            <span id="active-driver-rating">4.85</span>
-                                        </span>
-                                    </div>
-                                    <span id="active-vehicle-info" style="font-size: 12px; color: var(--color-text-secondary); margin-top: 4px; display: block;">Mercedes-Benz E-Class • Black</span>
-                                </div>
-                            </div>
-
-                            <!-- Controls for simulation speed up (manual step-through) -->
-                            <div style="border-top: 1px solid var(--border-color); padding-top: 16px; display: flex; flex-direction: column; gap: 10px;">
-                                <span style="font-size: 11px; color: var(--color-text-muted);">SIMULATOR CONTROLS:</span>
-                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-                                    <button class="btn-secondary" onclick="stepSimulateRide()" id="btn-step-sim" style="padding: 8px 12px; font-size: 12px; justify-content: center;">
-                                        <i data-lucide="fast-forward"></i> Fast Forward
-                                    </button>
-                                    <button class="btn-secondary" onclick="cancelCurrentActiveRide()" id="btn-cancel-sim" style="padding: 8px 12px; font-size: 12px; justify-content: center; color: var(--accent-red); border-color: rgba(255, 59, 48, 0.2);">
-                                        <i data-lucide="x"></i> Cancel Ride
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Side: Real-time Map Simulator Canvas -->
-                <div class="glass-panel map-canvas-container">
-                    <canvas id="simulator-map-canvas" width="600" height="480" style="display: block; width: 100%; height: 100%;"></canvas>
-                    
-                    <!-- Floating GPS HUD -->
-                    <div class="map-overlay-panel glass-panel" style="background: rgba(9, 9, 12, 0.85); max-width: 280px; top: 16px; bottom: auto; left: 16px; border-radius: 8px; border-color: rgba(255, 255, 255, 0.12);">
-                        <h4 style="font-size: 12px; text-transform: uppercase; color: var(--color-gold); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
-                            <i data-lucide="radio" style="width: 12px; height: 12px; animation: pulseGlow 1s infinite alternate;"></i> GPS Telemetry
-                        </h4>
-                        <div style="font-family: monospace; font-size: 11px; color: var(--color-text-secondary); line-height: 1.4;">
-                            Lat: <span id="hud-lat">13.0440</span><br>
-                            Lng: <span id="hud-lng">80.2370</span><br>
-                            Active Cabs online: <span id="hud-cabs-online" style="color: var(--accent-green);">2</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
-
-        <!-- =================== TAB 3: DRIVER PORTAL =================== -->
-        <main id="tab-driver" class="tab-content">
-            <div class="driver-portal-container">
-                <!-- Left: Driver Actions & Controls -->
-                <div class="glass-panel" style="padding: 24px;">
-                    <div class="flex-space-between" style="border-bottom: 1px solid var(--border-color); padding-bottom: 16px; margin-bottom: 20px;">
-                        <div>
-                            <h3 id="driver-portal-name">Driver Partner Console</h3>
-                            <span id="driver-portal-code" class="badge-outline" style="margin-top: 4px; display: inline-block;">DRV-1002</span>
-                        </div>
-                        <div>
-                            <label class="flex-space-between" style="gap: 10px; cursor: pointer;">
-                                <span id="driver-online-lbl" style="font-weight: 700; color: var(--accent-green);">ONLINE</span>
-                                <input type="checkbox" id="driver-online-toggle" checked onchange="toggleDriverAvailability()" style="width: 20px; height: 20px; accent-color: var(--accent-green);">
-                            </label>
-                        </div>
-                    </div>
-
-                    <!-- Statistics Grid -->
-                    <h4 style="font-size: 14px; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">Performance metrics</h4>
-                    <div class="driver-stats-grid">
-                        <div class="glass-panel driver-stat-card">
-                            <div class="driver-stat-val">4.92</div>
-                            <div class="driver-stat-lbl">Rating Score</div>
-                        </div>
-                        <div class="glass-panel driver-stat-card">
-                            <div class="driver-stat-val">₹4,250</div>
-                            <div class="driver-stat-lbl">Today's Earnings</div>
-                        </div>
-                        <div class="glass-panel driver-stat-card">
-                            <div class="driver-stat-val">96%</div>
-                            <div class="driver-stat-lbl">Acceptance</div>
-                        </div>
-                    </div>
-
-                    <!-- Fleet Vehicle Information -->
-                    <div class="glass-panel" style="padding: 16px; display: flex; gap: 16px; align-items: center; background: rgba(0,0,0,0.1); margin-top: 24px;">
-                        <i data-lucide="car" style="color: var(--color-gold); width: 32px; height: 32px;"></i>
-                        <div>
-                            <h4 style="font-size: 14px;">Assigned Premium Vehicle</h4>
-                            <span style="font-size: 13px; color: var(--color-text-secondary);" id="driver-assigned-car-txt">Mercedes-Benz E-Class (TN-01-BS-7777)</span>
-                        </div>
-                    </div>
-
-                    <!-- Incoming Booking Notification Box (Simulated request acceptor) -->
-                    <div id="incoming-booking-alert" class="glass-panel booking-request-card" style="margin-top: 24px; display: none;">
-                        <h4 style="color: var(--color-gold); font-size: 16px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
-                            <i data-lucide="bell-ring" style="animation: pulseGlow 1s infinite alternate;"></i> Incoming Luxury Ride Request!
-                        </h4>
-                        <div style="font-size: 13px; color: var(--color-text-secondary); margin-bottom: 16px; line-height: 1.4;">
-                            <strong>Pickup:</strong> <span id="alert-pickup">Home (T-Nagar)</span><br>
-                            <strong>Drop:</strong> <span id="alert-drop">Chennai Airport</span><br>
-                            <strong>Est. Fare:</strong> <span id="alert-fare" style="color: #fff; font-weight: bold;">₹450</span> • <strong>Est. Distance:</strong> <span id="alert-dist">8.5 km</span>
-                        </div>
-                        <div style="display: flex; gap: 8px;">
-                            <button class="btn-primary" onclick="driverAcceptRide()" style="flex-grow: 1; padding: 10px 0; justify-content: center;">Accept Ride</button>
-                            <button class="btn-secondary" onclick="driverRejectRide()" style="color: var(--accent-red); border-color: rgba(255, 59, 48, 0.2); padding: 10px 20px;">Decline</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right: Active Trip Log inside driver module -->
-                <div class="glass-panel" style="padding: 24px;">
-                    <h3>Today's Job History</h3>
-                    <div class="history-list" id="driver-ride-history-list">
-                        <!-- Loaded dynamically -->
-                    </div>
-                </div>
-            </div>
-        </main>
-
-        <!-- =================== TAB 4: CORPORATE TRAVEL =================== -->
-        <main id="tab-corporate" class="tab-content">
-            <h2 style="font-size: 28px; margin-bottom: 8px;">Corporate Co-Pilot</h2>
-            <p style="color: var(--color-text-secondary); margin-bottom: 24px;">Link your account with corporate entities for automatic monthly billing, priority executive transport, and reporting.</p>
-            
-            <div class="driver-portal-container">
-                <!-- Company Status / Registration -->
-                <div class="glass-panel" style="padding: 24px;">
-                    <h3>Corporate Registry</h3>
-                    
-                    <div id="corporate-unregistered-view">
-                        <p style="font-size: 13px; color: var(--color-text-secondary); margin: 12px 0 20px 0; line-height: 1.5;">
-                            You are not currently linked to a corporate billing profile. Register your corporate email or link to an existing verified company profile.
-                        </p>
-                        
-                        <div class="form-group">
-                            <label class="form-label" for="corp-select">Select Company Entity</label>
-                            <select id="corp-select" class="coupon-input" style="width: 100%; border: 1px solid var(--border-color);">
-                                <!-- Populated dynamically -->
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label" for="corp-email">Work Email</label>
-                            <div class="input-container">
-                                <i data-lucide="mail"></i>
-                                <input type="email" id="corp-email" class="input-field" placeholder="employee@company.com">
-                            </div>
-                        </div>
-
-                        <button class="btn-primary" onclick="registerCorporateProfile()" style="width: 100%; justify-content: center;">
-                            <i data-lucide="link"></i> Link Corporate Account
-                        </button>
-                    </div>
-
-                    <div id="corporate-registered-view" style="display: none;">
-                        <div style="border: 1px solid rgba(0, 230, 118, 0.2); background: rgba(0, 230, 118, 0.05); padding: 16px; border-radius: 12px; display: flex; gap: 12px; align-items: center; margin: 16px 0;">
-                            <i data-lucide="shield-check" style="color: var(--accent-green); width: 32px; height: 32px;"></i>
-                            <div>
-                                <h4 style="color: var(--accent-green);">Account Connected</h4>
-                                <span style="font-size: 12px; color: var(--color-text-secondary);">Your rides can now be billed directly to your company account.</span>
-                            </div>
-                        </div>
-
-                        <div class="glass-panel" style="padding: 16px; background: rgba(0,0,0,0.15); margin-bottom: 24px;">
-                            <div class="flex-space-between" style="margin-bottom: 8px;">
-                                <span style="font-size: 13px; color: var(--color-text-secondary);">Company:</span>
-                                <span id="corp-info-name" style="font-weight: 700;">Google India Pvt Ltd</span>
-                            </div>
-                            <div class="flex-space-between" style="margin-bottom: 8px;">
-                                <span style="font-size: 13px; color: var(--color-text-secondary);">Billing Cycle:</span>
-                                <span>Monthly Net-30 Invoice</span>
-                            </div>
-                            <div class="flex-space-between" style="margin-bottom: 8px;">
-                                <span style="font-size: 13px; color: var(--color-text-secondary);">Allowance:</span>
-                                <span style="color: var(--accent-green); font-weight: bold;">Unlimited Executive Rides</span>
-                            </div>
-                        </div>
-
-                        <button class="btn-secondary" onclick="unlinkCorporateProfile()" style="width: 100%; justify-content: center; color: var(--accent-red); border-color: rgba(255,59,48,0.2);">
-                            <i data-lucide="unlink"></i> Unlink Company
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Corporate Rules & Benefits Showcase -->
-                <div class="glass-panel" style="padding: 24px;">
-                    <h3>Corporate Member Perks</h3>
-                    <ul class="benefits-list" style="margin-top: 16px;">
-                        <li>
-                            <i data-lucide="badge-percent"></i>
-                            <div>
-                                <strong>10% Flat Corporate Discount</strong>
-                                <span style="font-size: 12px; color: var(--color-text-muted); display: block;">Applies automatically when billing company account.</span>
-                            </div>
-                        </li>
-                        <li>
-                            <i data-lucide="clock"></i>
-                            <div>
-                                <strong>Guaranteed 5-Min Priority Match</strong>
-                                <span style="font-size: 12px; color: var(--color-text-muted); display: block;">Skip standard matching queues entirely.</span>
-                            </div>
-                        </li>
-                        <li>
-                            <i data-lucide="receipt"></i>
-                            <div>
-                                <strong>Auto Invoicing & Expense Receipts</strong>
-                                <span style="font-size: 12px; color: var(--color-text-muted); display: block;">Direct integration with SAP, Concur, or PDF downloads.</span>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </main>
-
-        <!-- =================== TAB 5: ADMIN / OPERATIONS PANEL =================== -->
-        <main id="tab-admin" class="tab-content">
-            <h2 style="font-size: 28px; margin-bottom: 24px;">Operations Dashboard</h2>
-            
-            <!-- Dashboard Stats Metrics -->
-            <div class="admin-metrics-grid">
-                <div class="glass-panel metric-card">
-                    <div class="metric-icon-box"><i data-lucide="banknote"></i></div>
-                    <div>
-                        <div class="metric-num" id="metric-revenue">₹12,450.00</div>
-                        <div class="metric-lbl">Total Gross Revenue</div>
-                    </div>
-                </div>
-                <div class="glass-panel metric-card">
-                    <div class="metric-icon-box"><i data-lucide="car"></i></div>
-                    <div>
-                        <div class="metric-num" id="metric-active-cabs">2</div>
-                        <div class="metric-lbl">Active Drivers Online</div>
-                    </div>
-                </div>
-                <div class="glass-panel metric-card">
-                    <div class="metric-icon-box"><i data-lucide="shopping-bag"></i></div>
-                    <div>
-                        <div class="metric-num" id="metric-bookings">3</div>
-                        <div class="metric-lbl">Total Booking Logs</div>
-                    </div>
-                </div>
-                <div class="glass-panel metric-card">
-                    <div class="metric-icon-box"><i data-lucide="ticket"></i></div>
-                    <div>
-                        <div class="metric-num" id="metric-tickets">1</div>
-                        <div class="metric-lbl">Open Support Tickets</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="driver-portal-container">
-                <!-- Support Tickets Resolution Panel -->
-                <div class="glass-panel" style="padding: 24px;">
-                    <h3>Open Support Tickets</h3>
-                    <div id="admin-tickets-container" style="margin-top: 16px; display: flex; flex-direction: column; gap: 12px;">
-                        <!-- Populated dynamically via app.js -->
-                    </div>
-                </div>
-
-                <!-- Fleet Fleet Table and Status Log -->
-                <div class="glass-panel" style="padding: 24px;">
-                    <h3>Real-time Fleet Status</h3>
-                    <div style="margin-top: 16px; overflow-x: auto;">
-                        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 13px;">
-                            <thead>
-                                <tr style="border-bottom: 1px solid var(--border-color); color: var(--color-text-secondary);">
-                                    <th style="padding: 10px 0;">Reg No</th>
-                                    <th>Model Category</th>
-                                    <th>Driver Code</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-fleet-table-body">
-                                <!-- Populated dynamically -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
-
-    <!-- =================== CUSTOMER PROFILE MODAL WINDOW =================== -->
-    <div id="profile-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); z-index: 1000; justify-content: center; align-items: center;">
-        <div class="glass-panel" style="width: 100%; max-width: 650px; padding: 32px; border-radius: 20px; position: relative;">
-            <button onclick="closeProfileModal()" style="position: absolute; top: 20px; right: 20px; background: transparent; border: none; color: #fff; cursor: pointer;">
-                <i data-lucide="x" style="width: 24px; height: 24px;"></i>
-            </button>
-            
-            <h2 style="font-size: 24px; margin-bottom: 24px; display: flex; align-items: center; gap: 8px;">
-                <i data-lucide="user" style="color: var(--color-gold);"></i> Customer Account
-            </h2>
-
-            <div class="customer-profile-grid">
-                <!-- Profile details -->
-                <div>
-                    <div style="text-align: center; margin-bottom: 20px;">
-                        <img id="profile-avatar" src="" style="width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 3px solid var(--color-gold); margin-bottom: 12px;">
-                        <h3 id="profile-name">Syed Aashiq</h3>
-                        <span id="profile-email" style="font-size: 12px; color: var(--color-text-secondary);">aashiq@premiumcabs.com</span>
-                    </div>
-
-                    <div class="glass-panel" style="padding: 16px; background: rgba(0,0,0,0.15);">
-                        <div class="flex-space-between" style="margin-bottom: 8px;">
-                            <span style="font-size: 12px; color: var(--color-text-secondary);">Rewards wallet:</span>
-                            <span id="profile-points" style="font-weight: 700; color: var(--color-gold);">170 Points</span>
-                        </div>
-                        <div class="flex-space-between">
-                            <span style="font-size: 12px; color: var(--color-text-secondary);">Current Tier:</span>
-                            <span id="profile-tier" style="font-weight: 700; color: var(--color-gold);">Gold Member</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Ride History List -->
-                <div>
-                    <h3 style="font-size: 16px;">Booking & Ride History</h3>
-                    <div class="history-list" id="profile-bookings-list">
-                        <!-- Loaded dynamically -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Support Ticket Creator -->
-            <div style="border-top: 1px solid var(--border-color); margin-top: 24px; padding-top: 20px;">
-                <h4 style="font-size: 14px; margin-bottom: 12px;">Need Help? File an Operations Support Ticket</h4>
-                <div style="display: grid; grid-template-columns: 1fr 2fr auto; gap: 8px;">
-                    <input type="text" id="ticket-subject" class="coupon-input" placeholder="Subject..." style="font-size: 12px;">
-                    <input type="text" id="ticket-message" class="coupon-input" placeholder="Explain your issue..." style="font-size: 12px;">
-                    <button class="btn-primary" onclick="submitSupportTicket()" style="padding: 0 16px; font-size: 12px;">Submit</button>
-                </div>
-            </div>
+            <h2 class="mt-6 text-xl font-heading font-extrabold text-royal tracking-wider uppercase">Premium Cab</h2>
+            <p class="text-xs text-grey tracking-widest mt-1 uppercase">Luxury Transports</p>
         </div>
     </div>
 
-    <!-- Script Entry Modules -->
-    <script src="db.js"></script>
+    <!-- =================== SCROLL PROGRESS INDICATOR =================== -->
+    <div class="fixed top-0 left-0 right-0 h-1 bg-royal/10 z-[999] pointer-events-none">
+        <div id="scroll-progress-bar" class="h-full bg-royal w-0 transition-all duration-100"></div>
+    </div>
+
+    <!-- =================== NAVBAR =================== -->
+    <header id="sticky-header" class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md transition-all duration-300 border-b border-transparent">
+        <div class="max-w-[1440px] mx-auto px-6 lg:px-16 flex justify-between items-center h-20">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-2 font-heading font-extrabold text-2xl text-royal tracking-tight group">
+                <i data-lucide="crown" class="w-7 h-7 text-cta group-hover:scale-110 transition-transform"></i>
+                <span>Premium <span class="text-cta">Cab</span></span>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center gap-8">
+                <a href="#home" class="font-medium text-sm text-textDark hover:text-royal transition-colors">Home</a>
+                <a href="#services" class="font-medium text-sm text-textDark hover:text-royal transition-colors">Services</a>
+                <a href="#fleet" class="font-medium text-sm text-textDark hover:text-royal transition-colors">Fleet</a>
+                <a href="#pricing" class="font-medium text-sm text-textDark hover:text-royal transition-colors">Pricing</a>
+                <a href="#about" class="font-medium text-sm text-textDark hover:text-royal transition-colors">About</a>
+                <a href="#testimonials" class="font-medium text-sm text-textDark hover:text-royal transition-colors">Reviews</a>
+                <a href="#contact" class="font-medium text-sm text-textDark hover:text-royal transition-colors">Contact</a>
+            </nav>
+
+            <!-- Book CTA Right -->
+            <div class="hidden md:flex items-center gap-4">
+                <a href="#contact" class="px-6 py-2.5 bg-royal text-white font-heading font-semibold text-sm rounded-full hover:bg-royal-dark transition-all shadow-md hover:shadow-lg flex items-center gap-2">
+                    <i data-lucide="calendar"></i> Book Now
+                </a>
+            </div>
+
+            <!-- Hamburger Button -->
+            <button id="mobile-menu-toggle" class="md:hidden p-2 text-textDark focus:outline-none" aria-label="Toggle Menu">
+                <i data-lucide="menu" id="menu-icon" class="w-6 h-6 transition-transform"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="hidden md:hidden absolute top-20 left-0 right-0 bg-white border-b border-gray-100 shadow-xl transition-all duration-350 transform origin-top scale-y-95 opacity-0">
+            <div class="px-6 py-8 flex flex-col gap-6 font-heading">
+                <a href="#home" onclick="closeMobileMenu()" class="font-semibold text-lg text-textDark hover:text-royal flex items-center gap-3"><i data-lucide="home" class="w-5 h-5 text-royal"></i> Home</a>
+                <a href="#services" onclick="closeMobileMenu()" class="font-semibold text-lg text-textDark hover:text-royal flex items-center gap-3"><i data-lucide="sparkles" class="w-5 h-5 text-royal"></i> Services</a>
+                <a href="#fleet" onclick="closeMobileMenu()" class="font-semibold text-lg text-textDark hover:text-royal flex items-center gap-3"><i data-lucide="car" class="w-5 h-5 text-royal"></i> Fleet</a>
+                <a href="#pricing" onclick="closeMobileMenu()" class="font-semibold text-lg text-textDark hover:text-royal flex items-center gap-3"><i data-lucide="circle-dollar-sign" class="w-5 h-5 text-royal"></i> Pricing</a>
+                <a href="#about" onclick="closeMobileMenu()" class="font-semibold text-lg text-textDark hover:text-royal flex items-center gap-3"><i data-lucide="info" class="w-5 h-5 text-royal"></i> About</a>
+                <a href="#testimonials" onclick="closeMobileMenu()" class="font-semibold text-lg text-textDark hover:text-royal flex items-center gap-3"><i data-lucide="message-square" class="w-5 h-5 text-royal"></i> Reviews</a>
+                <a href="#contact" onclick="closeMobileMenu()" class="font-semibold text-lg text-textDark hover:text-royal flex items-center gap-3"><i data-lucide="phone-call" class="w-5 h-5 text-royal"></i> Contact</a>
+                <div class="h-[1px] bg-gray-100 my-2"></div>
+                <a href="#contact" onclick="closeMobileMenu()" class="w-full py-3.5 bg-royal text-white rounded-xl font-bold shadow-md text-center flex justify-center items-center gap-2">
+                    <i data-lucide="calendar"></i> Secure Reservation
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- =================== HERO SECTION =================== -->
+    <section id="home" class="relative pt-32 pb-20 lg:pt-40 lg:pb-32 overflow-hidden bg-white">
+        <!-- Floating gradient blobs background -->
+        <div class="absolute top-1/4 right-0 w-[450px] height-[450px] bg-royal/5 rounded-full glow-blob -z-10"></div>
+        <div class="absolute bottom-10 left-10 w-[300px] height-[300px] bg-cta/5 rounded-full glow-blob -z-10" style="animation-delay: -3s;"></div>
+
+        <div class="max-w-[1440px] mx-auto px-6 lg:px-16 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            <!-- Hero details Left -->
+            <div class="lg:col-span-7 flex flex-col justify-center animate-fade-up">
+                <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-royal/10 text-royal font-heading font-bold text-xs uppercase tracking-wider mb-6 w-fit">
+                    <i data-lucide="sparkles" class="w-3.5 h-3.5 text-cta"></i> Premium Travel Partner
+                </span>
+                <h1 class="font-heading font-extrabold text-4xl sm:text-5xl lg:text-[56px] leading-[1.1] text-textDark mb-6 tracking-tight">
+                    Premium Taxi Service in <span class="text-royal relative">Pondicherry<span class="absolute left-0 bottom-1 w-full h-[5px] bg-cta/30 -z-10"></span></span> & Kottakuppam
+                </h1>
+                
+                <!-- Trust points checkmarks -->
+                <div class="grid grid-cols-2 gap-4 mb-8">
+                    <div class="flex items-center gap-2.5">
+                        <div class="flex-shrink-0 w-5 h-5 bg-royal/10 text-royal rounded-full flex items-center justify-center">
+                            <i data-lucide="check" class="w-3 h-3"></i>
+                        </div>
+                        <span class="font-medium text-sm sm:text-base text-gray-700">Safe Rides Only</span>
+                    </div>
+                    <div class="flex items-center gap-2.5">
+                        <div class="flex-shrink-0 w-5 h-5 bg-royal/10 text-royal rounded-full flex items-center justify-center">
+                            <i data-lucide="check" class="w-3 h-3"></i>
+                        </div>
+                        <span class="font-medium text-sm sm:text-base text-gray-700">Affordable Pricing</span>
+                    </div>
+                    <div class="flex items-center gap-2.5">
+                        <div class="flex-shrink-0 w-5 h-5 bg-royal/10 text-royal rounded-full flex items-center justify-center">
+                            <i data-lucide="check" class="w-3 h-3"></i>
+                        </div>
+                        <span class="font-medium text-sm sm:text-base text-gray-700">Premium Comfort</span>
+                    </div>
+                    <div class="flex items-center gap-2.5">
+                        <div class="flex-shrink-0 w-5 h-5 bg-royal/10 text-royal rounded-full flex items-center justify-center">
+                            <i data-lucide="check" class="w-3 h-3"></i>
+                        </div>
+                        <span class="font-medium text-sm sm:text-base text-gray-700">Available 24/7</span>
+                    </div>
+                </div>
+
+                <!-- Hero Action Buttons -->
+                <div class="flex flex-wrap gap-4 items-center">
+                    <a href="#contact" class="px-8 py-3.5 bg-royal text-white font-heading font-bold rounded-full hover:bg-royal-dark transition-all shadow-md hover:shadow-lg flex items-center gap-2">
+                        <i data-lucide="calendar"></i> Book Online
+                    </a>
+                    <a href="tel:+919361469552" class="px-8 py-3.5 bg-white text-textDark border border-gray-200 font-heading font-bold rounded-full hover:border-royal hover:text-royal transition-all shadow-sm flex items-center gap-2">
+                        <i data-lucide="phone"></i> Call +91 9361469552
+                    </a>
+                </div>
+            </div>
+
+            <!-- Hero visual and widgets Right -->
+            <div class="lg:col-span-5 relative w-full flex justify-center items-center">
+                <!-- Outer blob glow -->
+                <div class="absolute w-[350px] h-[350px] bg-royal/10 rounded-full blur-3xl -z-10"></div>
+                
+                <!-- Main Premium Taxi Image -->
+                <img class="w-full max-w-[420px] object-contain drop-shadow-2xl rounded-2xl" src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=500&h=320" alt="Premium Tourist Taxi Mercedes S-Class">
+                
+                <!-- Floating Card 1: 24/7 Available -->
+                <div class="absolute -top-4 -left-6 bg-white/90 backdrop-blur-md border border-gray-100 rounded-2xl shadow-luxury p-3 flex items-center gap-3 animate-bounce" style="animation-duration: 3s;">
+                    <div class="w-10 h-10 bg-cta/15 text-cta rounded-xl flex justify-center items-center">
+                        <i data-lucide="phone-call" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <div class="text-[10px] text-grey uppercase tracking-widest font-semibold">Service</div>
+                        <div class="text-sm font-bold text-textDark">24/7 Available</div>
+                    </div>
+                </div>
+
+                <!-- Floating Card 2: Rating badge -->
+                <div class="absolute -bottom-4 right-2 bg-white/90 backdrop-blur-md border border-gray-100 rounded-2xl shadow-luxury p-3.5 flex items-center gap-3">
+                    <div class="w-10 h-10 bg-royal/10 text-royal rounded-xl flex justify-center items-center">
+                        <i data-lucide="star" class="w-5 h-5 fill-royal"></i>
+                    </div>
+                    <div>
+                        <div class="text-[10px] text-grey uppercase tracking-widest font-semibold">Average Rating</div>
+                        <div class="text-sm font-extrabold text-textDark flex items-center gap-1">4.9 ★ <span class="font-normal text-xs text-grey">(5K+ Reviews)</span></div>
+                    </div>
+                </div>
+
+                <!-- Floating Card 3: 100% Trusted -->
+                <div class="absolute top-1/2 -right-10 transform -translate-y-1/2 bg-white/90 backdrop-blur-md border border-gray-100 rounded-2xl shadow-luxury p-3 flex items-center gap-3">
+                    <div class="w-9 h-9 bg-emerald/10 text-emerald rounded-lg flex justify-center items-center">
+                        <i data-lucide="shield-check" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <div class="text-[11px] font-bold text-textDark">100% Trusted</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- =================== BOOKING WIDGET =================== -->
+        <div class="max-w-[1280px] mx-auto px-6 mt-16 lg:mt-24 relative z-20">
+            <div class="bg-white border border-gray-100 rounded-3xl shadow-luxury p-6 lg:p-8">
+                <h3 class="font-heading font-extrabold text-xl mb-6 text-textDark flex items-center gap-2">
+                    <i data-lucide="navigation-2" class="w-5 h-5 text-royal"></i> Quick Fare Calculator & Booking
+                </h3>
+                
+                <form id="hero-booking-widget" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-5">
+                    <!-- Pickup Location -->
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-xs font-bold text-grey uppercase tracking-wide">Pickup From</label>
+                        <div class="relative flex items-center">
+                            <i data-lucide="circle-dot" class="w-4 h-4 text-emerald absolute left-3"></i>
+                            <input type="text" id="widget-pickup" class="w-full bg-gray-50 border border-gray-200 text-sm font-medium text-textDark pl-9 pr-4 py-3 rounded-xl focus:border-royal focus:bg-white outline-none transition-all" placeholder="e.g. Pondicherry Bus Stand">
+                        </div>
+                    </div>
+
+                    <!-- Drop Location -->
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-xs font-bold text-grey uppercase tracking-wide">Drop Location</label>
+                        <div class="relative flex items-center">
+                            <i data-lucide="map-pin" class="w-4 h-4 text-cta absolute left-3"></i>
+                            <input type="text" id="widget-drop" class="w-full bg-gray-50 border border-gray-200 text-sm font-medium text-textDark pl-9 pr-4 py-3 rounded-xl focus:border-royal focus:bg-white outline-none transition-all" placeholder="e.g. Chennai Airport">
+                        </div>
+                    </div>
+
+                    <!-- Pickup Date -->
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-xs font-bold text-grey uppercase tracking-wide">Date</label>
+                        <div class="relative flex items-center">
+                            <i data-lucide="calendar" class="w-4 h-4 text-royal absolute left-3"></i>
+                            <input type="date" id="widget-date" class="w-full bg-gray-50 border border-gray-200 text-sm font-medium text-textDark pl-9 pr-4 py-3 rounded-xl focus:border-royal focus:bg-white outline-none transition-all">
+                        </div>
+                    </div>
+
+                    <!-- Pickup Time -->
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-xs font-bold text-grey uppercase tracking-wide">Time</label>
+                        <div class="relative flex items-center">
+                            <i data-lucide="clock" class="w-4 h-4 text-royal absolute left-3"></i>
+                            <input type="time" id="widget-time" class="w-full bg-gray-50 border border-gray-200 text-sm font-medium text-textDark pl-9 pr-4 py-3 rounded-xl focus:border-royal focus:bg-white outline-none transition-all">
+                        </div>
+                    </div>
+
+                    <!-- Vehicle Type Selection -->
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-xs font-bold text-grey uppercase tracking-wide">Vehicle Category</label>
+                        <div class="relative flex items-center">
+                            <i data-lucide="car" class="w-4 h-4 text-royal absolute left-3"></i>
+                            <select id="widget-vehicle" class="w-full bg-gray-50 border border-gray-200 text-sm font-semibold text-textDark pl-9 pr-4 py-3 rounded-xl focus:border-royal focus:bg-white outline-none transition-all appearance-none cursor-pointer">
+                                <option value="4">4 Seater Cab</option>
+                                <option value="7">7 Seater SUV</option>
+                            </select>
+                            <i data-lucide="chevron-down" class="w-4 h-4 text-grey absolute right-3 pointer-events-none"></i>
+                        </div>
+                    </div>
+
+                    <!-- Submit / Calculate Button -->
+                    <div class="flex items-end">
+                        <button type="submit" class="w-full bg-cta text-white font-heading font-bold text-center py-3.5 rounded-xl hover:bg-cta-dark transition-all shadow-goldGlow hover:shadow-lg flex justify-center items-center gap-2">
+                            <i data-lucide="calculator"></i> Estimate
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Fare estimation outcome banner inside widget -->
+                <div id="widget-estimate-box" class="hidden mt-6 border-t border-gray-100 pt-6 flex-wrap justify-between items-center gap-4 animate-scale-in">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-emerald/10 text-emerald rounded-2xl flex justify-center items-center mb-3">
+                            <i data-lucide="check-circle" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <div class="text-xs text-grey uppercase tracking-wider font-semibold">Estimated Daily Fare</div>
+                            <div id="widget-estimated-fare-txt" class="text-xl font-heading font-extrabold text-emerald">₹1,299.00</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="text-xs text-grey max-w-[200px] leading-snug">Rates include vehicle rent + chauffeur. Excludes toll/parking.</span>
+                        <a href="#contact" id="widget-proceed-booking-btn" class="px-6 py-2.5 bg-royal text-white rounded-lg font-heading font-bold text-sm shadow-md hover:bg-royal-dark transition-all">Proceed Booking</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =================== SERVICES SECTION =================== -->
+    <section id="services" class="py-24 bg-[#F8F9FA] border-y border-gray-100">
+        <div class="max-w-[1280px] mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-xs font-heading font-bold text-royal tracking-widest uppercase">What We Offer</span>
+                <h2 class="font-heading font-extrabold text-3xl sm:text-4xl text-textDark mt-3">Our Premium Services</h2>
+                <p class="text-grey text-base mt-4 leading-relaxed">Comfortable outstation rides, local commutes, wedding events, and emergency dispatch services. Your absolute travel companion.</p>
+            </div>
+
+            <!-- Services Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 1. Airport Pickup -->
+                <div class="bg-white border border-gray-100 rounded-3xl p-8 shadow-sm hover:shadow-luxury hover:-translate-y-1.5 transition-all duration-300 flex flex-col gap-4 group">
+                    <div class="w-12 h-12 rounded-2xl bg-royal/10 text-royal flex justify-center items-center group-hover:bg-royal group-hover:text-white transition-all">
+                        <i data-lucide="plane-landing" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-xl text-textDark">Airport Pickup</h3>
+                    <p class="text-grey text-sm leading-relaxed">Direct pick up services from Chennai (MAA) & nearby airports. Chauffeurs wait with welcome signs at arrivals.</p>
+                    <a href="#contact" class="text-xs font-bold text-royal hover:text-royal-dark mt-auto flex items-center gap-1">Book Chauffeur <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></a>
+                </div>
+
+                <!-- 2. Airport Drop -->
+                <div class="bg-white border border-gray-100 rounded-3xl p-8 shadow-sm hover:shadow-luxury hover:-translate-y-1.5 transition-all duration-300 flex flex-col gap-4 group">
+                    <div class="w-12 h-12 rounded-2xl bg-royal/10 text-royal flex justify-center items-center group-hover:bg-royal group-hover:text-white transition-all">
+                        <i data-lucide="plane-takeoff" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-xl text-textDark">Airport Drop</h3>
+                    <p class="text-grey text-sm leading-relaxed">Timely transport drops to Chennai, Pondicherry or Trichy airport. Zero delays, maximum flight reliability.</p>
+                    <a href="#contact" class="text-xs font-bold text-royal hover:text-royal-dark mt-auto flex items-center gap-1">Book Drop <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></a>
+                </div>
+
+                <!-- 3. Outstation Trips -->
+                <div class="bg-white border border-gray-100 rounded-3xl p-8 shadow-sm hover:shadow-luxury hover:-translate-y-1.5 transition-all duration-300 flex flex-col gap-4 group">
+                    <div class="w-12 h-12 rounded-2xl bg-royal/10 text-royal flex justify-center items-center group-hover:bg-royal group-hover:text-white transition-all">
+                        <i data-lucide="compass" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-xl text-textDark">Outstation Travels</h3>
+                    <p class="text-grey text-sm leading-relaxed">Explore neighboring South Indian cities like Bangalore, Madurai, or Kanyakumari. Flexible intercity packages.</p>
+                    <a href="#contact" class="text-xs font-bold text-royal hover:text-royal-dark mt-auto flex items-center gap-1">Explore Packages <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></a>
+                </div>
+
+                <!-- 4. Local Commutes -->
+                <div class="bg-white border border-gray-100 rounded-3xl p-8 shadow-sm hover:shadow-luxury hover:-translate-y-1.5 transition-all duration-300 flex flex-col gap-4 group">
+                    <div class="w-12 h-12 rounded-2xl bg-royal/10 text-royal flex justify-center items-center group-hover:bg-royal group-hover:text-white transition-all">
+                        <i data-lucide="navigation" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-xl text-textDark">Local Sightseeing</h3>
+                    <p class="text-grey text-sm leading-relaxed">Explore tourist hubs in Pondicherry, French Quarter, Auroville Ashram, and beach avenues with native drivers.</p>
+                    <a href="#contact" class="text-xs font-bold text-royal hover:text-royal-dark mt-auto flex items-center gap-1">Book Half Day <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></a>
+                </div>
+
+                <!-- 5. Corporate Travel -->
+                <div class="bg-white border border-gray-100 rounded-3xl p-8 shadow-sm hover:shadow-luxury hover:-translate-y-1.5 transition-all duration-300 flex flex-col gap-4 group">
+                    <div class="w-12 h-12 rounded-2xl bg-royal/10 text-royal flex justify-center items-center group-hover:bg-royal group-hover:text-white transition-all">
+                        <i data-lucide="building-2" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-xl text-textDark">Corporate Travel</h3>
+                    <p class="text-grey text-sm leading-relaxed">Premium luxury transportation for business executives, delegates, corporate meetings, and events.</p>
+                    <a href="#contact" class="text-xs font-bold text-royal hover:text-royal-dark mt-auto flex items-center gap-1">Setup Account <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></a>
+                </div>
+
+                <!-- 6. Family Tour -->
+                <div class="bg-white border border-gray-100 rounded-3xl p-8 shadow-sm hover:shadow-luxury hover:-translate-y-1.5 transition-all duration-300 flex flex-col gap-4 group">
+                    <div class="w-12 h-12 rounded-2xl bg-royal/10 text-royal flex justify-center items-center group-hover:bg-royal group-hover:text-white transition-all">
+                        <i data-lucide="users" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-xl text-textDark">Family Tour</h3>
+                    <p class="text-grey text-sm leading-relaxed">Comfortable family trips using spacious 7-seater multi-utility vehicles (Ertiga, Innova Crysta).</p>
+                    <a href="#contact" class="text-xs font-bold text-royal hover:text-royal-dark mt-auto flex items-center gap-1">Book SUV <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></a>
+                </div>
+
+                <!-- 7. Temple Visit -->
+                <div class="bg-white border border-gray-100 rounded-3xl p-8 shadow-sm hover:shadow-luxury hover:-translate-y-1.5 transition-all duration-300 flex flex-col gap-4 group">
+                    <div class="w-12 h-12 rounded-2xl bg-royal/10 text-royal flex justify-center items-center group-hover:bg-royal group-hover:text-white transition-all">
+                        <i data-lucide="landmark" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-xl text-textDark">Temple Visits</h3>
+                    <p class="text-grey text-sm leading-relaxed">Specialized packages for Chidambaram, Tirupati, Thanjavur temple tours with reliable chauffeurs.</p>
+                    <a href="#contact" class="text-xs font-bold text-royal hover:text-royal-dark mt-auto flex items-center gap-1">Explore Tour <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></a>
+                </div>
+
+                <!-- 8. Wedding Transport -->
+                <div class="bg-white border border-gray-100 rounded-3xl p-8 shadow-sm hover:shadow-luxury hover:-translate-y-1.5 transition-all duration-300 flex flex-col gap-4 group">
+                    <div class="w-12 h-12 rounded-2xl bg-royal/10 text-royal flex justify-center items-center group-hover:bg-royal group-hover:text-white transition-all">
+                        <i data-lucide="heart" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-xl text-textDark">Wedding Transport</h3>
+                    <p class="text-grey text-sm leading-relaxed">Luxury fleet categories for wedding guest movements and decorated bridal vehicle services.</p>
+                    <a href="#contact" class="text-xs font-bold text-royal hover:text-royal-dark mt-auto flex items-center gap-1">Enquire Fleet <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></a>
+                </div>
+
+                <!-- 9. 24 Hour Taxi / Emergency -->
+                <div class="bg-white border border-gray-100 rounded-3xl p-8 shadow-sm hover:shadow-luxury hover:-translate-y-1.5 transition-all duration-300 flex flex-col gap-4 group">
+                    <div class="w-12 h-12 rounded-2xl bg-royal/10 text-royal flex justify-center items-center group-hover:bg-royal group-hover:text-white transition-all">
+                        <i data-lucide="phone-call" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-xl text-textDark">Emergency Booking</h3>
+                    <p class="text-grey text-sm leading-relaxed">Last-minute immediate cab dispatching services. Available around the clock for emergency travel demands.</p>
+                    <a href="tel:+919361469552" class="text-xs font-bold text-cta hover:text-cta-dark mt-auto flex items-center gap-1">Call Driver Now <i data-lucide="phone" class="w-3.5 h-3.5"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =================== FLEET SECTION =================== -->
+    <section id="fleet" class="py-24 bg-white">
+        <div class="max-w-[1280px] mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-xs font-heading font-bold text-royal tracking-widest uppercase">The Executive Fleet</span>
+                <h2 class="font-heading font-extrabold text-3xl sm:text-4xl text-textDark mt-3">Select Your Chauffeur Ride</h2>
+                <p class="text-grey text-base mt-4 leading-relaxed">Maintained vehicle fleet options. Sanitized cabins, working climate control, and generous storage spaces.</p>
+            </div>
+
+            <!-- Fleet Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Vehicle 1: Dzire -->
+                <div class="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-luxury hover:shadow-2xl transition-all duration-300 flex flex-col">
+                    <div class="h-56 bg-gray-50 overflow-hidden relative group">
+                        <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=400&h=280" alt="Swift Dzire Sedans" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute top-4 right-4 bg-royal text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Premium Sedan</span>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="font-heading font-bold text-2xl text-textDark mb-4">Swift Dzire</h3>
+                        
+                        <!-- Specifications -->
+                        <div class="grid grid-cols-2 gap-y-3 gap-x-2 text-xs text-grey font-medium mb-6">
+                            <div class="flex items-center gap-2"><i data-lucide="users" class="w-4 h-4 text-royal"></i> Max 4 Passengers</div>
+                            <div class="flex items-center gap-2"><i data-lucide="snowflake" class="w-4 h-4 text-royal"></i> Full AC Cab</div>
+                            <div class="flex items-center gap-2"><i data-lucide="briefcase" class="w-4 h-4 text-royal"></i> 2 Luggage Bags</div>
+                            <div class="flex items-center gap-2"><i data-lucide="droplet" class="w-4 h-4 text-royal"></i> Diesel / Petrol</div>
+                        </div>
+
+                        <div class="flex justify-between items-center mt-auto border-t border-gray-50 pt-4">
+                            <div>
+                                <span class="text-[11px] text-grey uppercase tracking-wider block font-semibold">Starting From</span>
+                                <span class="text-xl font-heading font-extrabold text-royal">₹1,299<span class="text-xs text-grey font-normal">/day</span></span>
+                            </div>
+                            <a href="#contact" class="px-5 py-2.5 bg-royal text-white font-heading font-bold rounded-xl text-xs hover:bg-royal-dark transition-all">Book Dzire</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vehicle 2: Innova Crysta -->
+                <div class="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-luxury hover:shadow-2xl transition-all duration-300 flex flex-col">
+                    <div class="h-56 bg-gray-50 overflow-hidden relative group">
+                        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&w=400&h=280" alt="Toyota Innova Crysta SUV" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute top-4 right-4 bg-cta text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Luxury SUV</span>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="font-heading font-bold text-2xl text-textDark mb-4">Innova Crysta</h3>
+                        
+                        <!-- Specifications -->
+                        <div class="grid grid-cols-2 gap-y-3 gap-x-2 text-xs text-grey font-medium mb-6">
+                            <div class="flex items-center gap-2"><i data-lucide="users" class="w-4 h-4 text-royal"></i> Max 7 Passengers</div>
+                            <div class="flex items-center gap-2"><i data-lucide="snowflake" class="w-4 h-4 text-royal"></i> Multi-Zone AC</div>
+                            <div class="flex items-center gap-2"><i data-lucide="briefcase" class="w-4 h-4 text-royal"></i> 4-5 Luggage Bags</div>
+                            <div class="flex items-center gap-2"><i data-lucide="droplet" class="w-4 h-4 text-royal"></i> Diesel Engine</div>
+                        </div>
+
+                        <div class="flex justify-between items-center mt-auto border-t border-gray-50 pt-4">
+                            <div>
+                                <span class="text-[11px] text-grey uppercase tracking-wider block font-semibold">Starting From</span>
+                                <span class="text-xl font-heading font-extrabold text-royal">₹2,499<span class="text-xs text-grey font-normal">/day</span></span>
+                            </div>
+                            <a href="#contact" class="px-5 py-2.5 bg-cta text-white font-heading font-bold rounded-xl text-xs hover:bg-cta-dark transition-all">Book Innova</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vehicle 3: Maruti Ertiga -->
+                <div class="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-luxury hover:shadow-2xl transition-all duration-300 flex flex-col">
+                    <div class="h-56 bg-gray-50 overflow-hidden relative group">
+                        <img src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=400&h=280" alt="Maruti Ertiga Multi Utility vehicle" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute top-4 right-4 bg-royal text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Family SUV</span>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="font-heading font-bold text-2xl text-textDark mb-4">Maruti Ertiga</h3>
+                        
+                        <!-- Specifications -->
+                        <div class="grid grid-cols-2 gap-y-3 gap-x-2 text-xs text-grey font-medium mb-6">
+                            <div class="flex items-center gap-2"><i data-lucide="users" class="w-4 h-4 text-royal"></i> Max 6-7 Passengers</div>
+                            <div class="flex items-center gap-2"><i data-lucide="snowflake" class="w-4 h-4 text-royal"></i> Double Blower AC</div>
+                            <div class="flex items-center gap-2"><i data-lucide="briefcase" class="w-4 h-4 text-royal"></i> 3-4 Luggage Bags</div>
+                            <div class="flex items-center gap-2"><i data-lucide="droplet" class="w-4 h-4 text-royal"></i> Petrol / CNG</div>
+                        </div>
+
+                        <div class="flex justify-between items-center mt-auto border-t border-gray-50 pt-4">
+                            <div>
+                                <span class="text-[11px] text-grey uppercase tracking-wider block font-semibold">Starting From</span>
+                                <span class="text-xl font-heading font-extrabold text-royal">₹1,699<span class="text-xs text-grey font-normal">/day</span></span>
+                            </div>
+                            <a href="#contact" class="px-5 py-2.5 bg-royal text-white font-heading font-bold rounded-xl text-xs hover:bg-royal-dark transition-all">Book Ertiga</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vehicle 4: Innova -->
+                <div class="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-luxury hover:shadow-2xl transition-all duration-300 flex flex-col">
+                    <div class="h-56 bg-gray-50 overflow-hidden relative group">
+                        <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=400&h=280" alt="Standard Toyota Innova Cab" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute top-4 right-4 bg-royal text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Multi-Utility</span>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="font-heading font-bold text-2xl text-textDark mb-4">Toyota Innova</h3>
+                        
+                        <!-- Specifications -->
+                        <div class="grid grid-cols-2 gap-y-3 gap-x-2 text-xs text-grey font-medium mb-6">
+                            <div class="flex items-center gap-2"><i data-lucide="users" class="w-4 h-4 text-royal"></i> Max 7 Passengers</div>
+                            <div class="flex items-center gap-2"><i data-lucide="snowflake" class="w-4 h-4 text-royal"></i> Front & Rear AC</div>
+                            <div class="flex items-center gap-2"><i data-lucide="briefcase" class="w-4 h-4 text-royal"></i> 4 Luggage Bags</div>
+                            <div class="flex items-center gap-2"><i data-lucide="droplet" class="w-4 h-4 text-royal"></i> Diesel fuel</div>
+                        </div>
+
+                        <div class="flex justify-between items-center mt-auto border-t border-gray-50 pt-4">
+                            <div>
+                                <span class="text-[11px] text-grey uppercase tracking-wider block font-semibold">Starting From</span>
+                                <span class="text-xl font-heading font-extrabold text-royal">₹2,199<span class="text-xs text-grey font-normal">/day</span></span>
+                            </div>
+                            <a href="#contact" class="px-5 py-2.5 bg-royal text-white font-heading font-bold rounded-xl text-xs hover:bg-royal-dark transition-all">Book Innova</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vehicle 5: Toyota Etios -->
+                <div class="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-luxury hover:shadow-2xl transition-all duration-300 flex flex-col">
+                    <div class="h-56 bg-gray-50 overflow-hidden relative group">
+                        <img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=400&h=280" alt="Toyota Etios Tourist Taxi" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute top-4 right-4 bg-royal text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Executive Sedan</span>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="font-heading font-bold text-2xl text-textDark mb-4">Toyota Etios</h3>
+                        
+                        <!-- Specifications -->
+                        <div class="grid grid-cols-2 gap-y-3 gap-x-2 text-xs text-grey font-medium mb-6">
+                            <div class="flex items-center gap-2"><i data-lucide="users" class="w-4 h-4 text-royal"></i> Max 4 Passengers</div>
+                            <div class="flex items-center gap-2"><i data-lucide="snowflake" class="w-4 h-4 text-royal"></i> High Power AC</div>
+                            <div class="flex items-center gap-2"><i data-lucide="briefcase" class="w-4 h-4 text-royal"></i> 2-3 Luggage Bags</div>
+                            <div class="flex items-center gap-2"><i data-lucide="droplet" class="w-4 h-4 text-royal"></i> Petrol Option</div>
+                        </div>
+
+                        <div class="flex justify-between items-center mt-auto border-t border-gray-50 pt-4">
+                            <div>
+                                <span class="text-[11px] text-grey uppercase tracking-wider block font-semibold">Starting From</span>
+                                <span class="text-xl font-heading font-extrabold text-royal">₹1,399<span class="text-xs text-grey font-normal">/day</span></span>
+                            </div>
+                            <a href="#contact" class="px-5 py-2.5 bg-royal text-white font-heading font-bold rounded-xl text-xs hover:bg-royal-dark transition-all">Book Etios</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vehicle 6: Honda Amaze -->
+                <div class="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-luxury hover:shadow-2xl transition-all duration-300 flex flex-col">
+                    <div class="h-56 bg-gray-50 overflow-hidden relative group">
+                        <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=400&h=280" alt="Honda Amaze Executive Cab" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute top-4 right-4 bg-royal text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Premium Sedan</span>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="font-heading font-bold text-2xl text-textDark mb-4">Honda Amaze</h3>
+                        
+                        <!-- Specifications -->
+                        <div class="grid grid-cols-2 gap-y-3 gap-x-2 text-xs text-grey font-medium mb-6">
+                            <div class="flex items-center gap-2"><i data-lucide="users" class="w-4 h-4 text-royal"></i> Max 4 Passengers</div>
+                            <div class="flex items-center gap-2"><i data-lucide="snowflake" class="w-4 h-4 text-royal"></i> Automatic AC</div>
+                            <div class="flex items-center gap-2"><i data-lucide="briefcase" class="w-4 h-4 text-royal"></i> 2 Luggage Bags</div>
+                            <div class="flex items-center gap-2"><i data-lucide="droplet" class="w-4 h-4 text-royal"></i> Petrol / i-DTEC</div>
+                        </div>
+
+                        <div class="flex justify-between items-center mt-auto border-t border-gray-50 pt-4">
+                            <div>
+                                <span class="text-[11px] text-grey uppercase tracking-wider block font-semibold">Starting From</span>
+                                <span class="text-xl font-heading font-extrabold text-royal">₹1,499<span class="text-xs text-grey font-normal">/day</span></span>
+                            </div>
+                            <a href="#contact" class="px-5 py-2.5 bg-royal text-white font-heading font-bold rounded-xl text-xs hover:bg-royal-dark transition-all">Book Amaze</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =================== PRICING SECTION =================== -->
+    <section id="pricing" class="py-24 bg-[#F8F9FA] border-y border-gray-100">
+        <div class="max-w-[1280px] mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-xs font-heading font-bold text-royal tracking-widest uppercase">Pricing Models</span>
+                <h2 class="font-heading font-extrabold text-3xl sm:text-4xl text-textDark mt-3">Transparent Day Packages</h2>
+                <p class="text-grey text-base mt-4 leading-relaxed">No hidden charges or unexpected rates. Safe packages for daily rentals or local sightseeings.</p>
+            </div>
+
+            <!-- Pricing Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <!-- Plan 1: 4 Seater -->
+                <div class="bg-white border-2 border-transparent hover:border-royal/30 rounded-3xl p-8 shadow-luxury relative flex flex-col transition-all duration-300 group">
+                    <span class="absolute top-4 right-4 bg-royal/10 text-royal text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Best Value</span>
+                    
+                    <h3 class="font-heading font-bold text-2xl text-textDark mb-2">4 Seater Cabs</h3>
+                    <p class="text-grey text-sm mb-6">Perfect for solo business travelers, couples, or small family transfers.</p>
+                    
+                    <div class="flex items-baseline mb-6 border-y border-gray-50 py-4">
+                        <span class="text-xs text-grey font-semibold uppercase tracking-wider mr-2">Starting</span>
+                        <span class="text-4xl font-heading font-extrabold text-royal">₹1,299</span>
+                        <span class="text-sm text-grey font-medium ml-1">/ Day</span>
+                    </div>
+
+                    <ul class="flex flex-col gap-3.5 mb-8 text-sm text-gray-700 font-medium">
+                        <li class="flex items-center gap-3"><i data-lucide="check" class="w-5 h-5 text-emerald"></i> Full Air Conditioning (AC)</li>
+                        <li class="flex items-center gap-3"><i data-lucide="check" class="w-5 h-5 text-emerald"></i> Professional & Verified Chauffeur</li>
+                        <li class="flex items-center gap-3"><i data-lucide="check" class="w-5 h-5 text-emerald"></i> Clean & Sanitized Vehicle</li>
+                        <li class="flex items-center gap-3"><i data-lucide="check" class="w-5 h-5 text-emerald"></i> Fuel Efficient (Swift Dzire, Etios, Amaze)</li>
+                    </ul>
+
+                    <a href="#contact" class="w-full py-3.5 bg-royal text-white text-center font-heading font-bold rounded-xl hover:bg-royal-dark transition-all shadow-md mt-auto">Book 4 Seater Now</a>
+                </div>
+
+                <!-- Plan 2: 7 Seater -->
+                <div class="bg-white border-2 border-cta/30 rounded-3xl p-8 shadow-luxury relative flex flex-col transition-all duration-300 group">
+                    <span class="absolute top-4 right-4 bg-cta/15 text-cta text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Most Popular</span>
+                    
+                    <h3 class="font-heading font-bold text-2xl text-textDark mb-2">7 Seater SUVs</h3>
+                    <p class="text-grey text-sm mb-6">Ideal for large families, group tours, wedding parties or extra luggage travels.</p>
+                    
+                    <div class="flex items-baseline mb-6 border-y border-gray-50 py-4">
+                        <span class="text-xs text-grey font-semibold uppercase tracking-wider mr-2">Starting</span>
+                        <span class="text-4xl font-heading font-extrabold text-cta">₹1,699</span>
+                        <span class="text-sm text-grey font-medium ml-1">/ Day</span>
+                    </div>
+
+                    <ul class="flex flex-col gap-3.5 mb-8 text-sm text-gray-700 font-medium">
+                        <li class="flex items-center gap-3"><i data-lucide="check" class="w-5 h-5 text-emerald"></i> High Power Multi-Blower AC</li>
+                        <li class="flex items-center gap-3"><i data-lucide="check" class="w-5 h-5 text-emerald"></i> Senior experienced drivers</li>
+                        <li class="flex items-center gap-3"><i data-lucide="check" class="w-5 h-5 text-emerald"></i> Double row luggage storage spaces</li>
+                        <li class="flex items-center gap-3"><i data-lucide="check" class="w-5 h-5 text-emerald"></i> Spacious seats (Innova Crysta, Ertiga, Rumion)</li>
+                    </ul>
+
+                    <a href="#contact" class="w-full py-3.5 bg-cta text-white text-center font-heading font-bold rounded-xl hover:bg-cta-dark transition-all shadow-goldGlow mt-auto">Book 7 Seater Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =================== WHY CHOOSE US & STATS =================== -->
+    <section class="py-24 bg-white">
+        <div class="max-w-[1280px] mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+                <!-- Left Column text info -->
+                <div class="lg:col-span-6 flex flex-col justify-center">
+                    <span class="text-xs font-heading font-bold text-royal tracking-widest uppercase">Why Choose Us</span>
+                    <h2 class="font-heading font-extrabold text-3xl sm:text-4xl text-textDark mt-3 mb-6">Safe, Affordable & On-Time Transfers</h2>
+                    <p class="text-grey text-sm sm:text-base leading-relaxed mb-8">We redefine regional taxi travel in Pondicherry, Kottakuppam, and Auroville. Fully verified, experienced drivers combined with a fleet of clean, modern vehicles ensure you reach your destination safely and comfortably.</p>
+
+                    <!-- Trust Cards mini flex -->
+                    <div class="flex flex-col gap-5">
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0 w-10 h-10 bg-royal/10 text-royal rounded-xl flex items-center justify-center">
+                                <i data-lucide="users" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-heading font-bold text-base text-textDark">Experienced Professional Drivers</h4>
+                                <p class="text-grey text-xs mt-1">Vetted and licensed drivers with local route mastery and clean records.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0 w-10 h-10 bg-royal/10 text-royal rounded-xl flex items-center justify-center">
+                                <i data-lucide="navigation" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-heading font-bold text-base text-textDark">GPS Navigation & Telemetry</h4>
+                                <p class="text-grey text-xs mt-1">All taxis equipped with active GPS tracking and direct operations helpline link.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0 w-10 h-10 bg-royal/10 text-royal rounded-xl flex items-center justify-center">
+                                <i data-lucide="sparkles" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-heading font-bold text-base text-textDark">Clean & Sanitized Vehicles</h4>
+                                <p class="text-grey text-xs mt-1">Every car is fully detailed, cleaned, and tested before your pick-up time.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column Stats & Counters Grid -->
+                <div class="lg:col-span-6 grid grid-cols-2 gap-6 relative">
+                    <!-- Subtle backing glow -->
+                    <div class="absolute w-[200px] h-[200px] bg-royal/5 rounded-full blur-2xl top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+                    
+                    <!-- Stat 1 -->
+                    <div class="bg-gray-50 border border-gray-100 rounded-3xl p-6 text-center shadow-sm hover:shadow-luxury transition-all duration-355 flex flex-col justify-center items-center">
+                        <div class="w-12 h-12 bg-royal/10 text-royal rounded-2xl flex justify-center items-center mb-3">
+                            <i data-lucide="smile" class="w-6 h-6"></i>
+                        </div>
+                        <div class="text-3xl font-heading font-extrabold text-royal" data-target="5000">0</div>
+                        <div class="text-[11px] text-grey uppercase tracking-wider font-semibold mt-1">Happy Customers</div>
+                    </div>
+
+                    <!-- Stat 2 -->
+                    <div class="bg-gray-50 border border-gray-100 rounded-3xl p-6 text-center shadow-sm hover:shadow-luxury transition-all duration-355 flex flex-col justify-center items-center">
+                        <div class="w-12 h-12 bg-cta/15 text-cta rounded-2xl flex justify-center items-center mb-3">
+                            <i data-lucide="compass" class="w-6 h-6"></i>
+                        </div>
+                        <div class="text-3xl font-heading font-extrabold text-cta" data-target="500">0</div>
+                        <div class="text-[11px] text-grey uppercase tracking-wider font-semibold mt-1">Monthly Trips</div>
+                    </div>
+
+                    <!-- Stat 3 -->
+                    <div class="bg-gray-50 border border-gray-100 rounded-3xl p-6 text-center shadow-sm hover:shadow-luxury transition-all duration-355 flex flex-col justify-center items-center">
+                        <div class="w-12 h-12 bg-emerald/10 text-emerald rounded-2xl flex justify-center items-center mb-3">
+                            <i data-lucide="car" class="w-6 h-6"></i>
+                        </div>
+                        <div class="text-3xl font-heading font-extrabold text-emerald" data-target="10">0</div>
+                        <div class="text-[11px] text-grey uppercase tracking-wider font-semibold mt-1">Active Fleet Vehicles</div>
+                    </div>
+
+                    <!-- Stat 4 -->
+                    <div class="bg-gray-50 border border-gray-100 rounded-3xl p-6 text-center shadow-sm hover:shadow-luxury transition-all duration-355 flex flex-col justify-center items-center">
+                        <div class="w-12 h-12 bg-royal/10 text-royal rounded-2xl flex justify-center items-center mb-3">
+                            <i data-lucide="star" class="w-6 h-6 fill-royal"></i>
+                        </div>
+                        <div class="text-3xl font-heading font-extrabold text-royal flex items-center gap-0.5"><span>4.9</span><span class="text-sm font-normal text-grey">★</span></div>
+                        <div class="text-[11px] text-grey uppercase tracking-wider font-semibold mt-1">Average Rating</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =================== ABOUT SECTION =================== -->
+    <section id="about" class="py-24 bg-[#F8F9FA] border-y border-gray-100">
+        <div class="max-w-[1280px] mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+                <!-- Left Image -->
+                <div class="lg:col-span-5 relative flex justify-center">
+                    <img class="w-full max-w-[400px] object-cover rounded-3xl shadow-luxury" src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=500&h=640" alt="Executive cab in French Quarter Pondicherry">
+                </div>
+
+                <!-- Right Content -->
+                <div class="lg:col-span-7 flex flex-col justify-center">
+                    <span class="text-xs font-heading font-bold text-royal tracking-widest uppercase">About Our Company</span>
+                    <h2 class="font-heading font-extrabold text-3xl sm:text-4xl text-textDark mt-3 mb-6">Pondicherry's Premier Fleet Services</h2>
+                    <p class="text-grey text-base leading-relaxed mb-6">Based in Pondicherry & Kottakuppam, we specialize in delivering clean, reliable passenger transport solutions across Tamil Nadu. Established with a vision to provide dependable travel experiences, we serve local sights, temple tours, business corporations, and airport drop transfers to Chennai.</p>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-8">
+                        <div class="flex items-center gap-3">
+                            <i data-lucide="users" class="w-5 h-5 text-royal"></i>
+                            <span class="text-sm font-bold text-textDark">Experienced Chauffeurs</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <i data-lucide="shield-check" class="w-5 h-5 text-royal"></i>
+                            <span class="text-sm font-bold text-textDark">Safety First Integrity</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <i data-lucide="droplet" class="w-5 h-5 text-royal"></i>
+                            <span class="text-sm font-bold text-textDark">Clean & Sanitized Taxis</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <i data-lucide="clock" class="w-5 h-5 text-royal"></i>
+                            <span class="text-sm font-bold text-textDark">On-Time Guarantees</span>
+                        </div>
+                    </div>
+
+                    <a href="#contact" class="px-8 py-3.5 bg-royal text-white font-heading font-bold rounded-xl hover:bg-royal-dark transition-all shadow-md w-fit flex items-center gap-2">
+                        <i data-lucide="calendar"></i> Secure Trip Reservation
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =================== GALLERY SECTION =================== -->
+    <section class="py-24 bg-white">
+        <div class="max-w-[1280px] mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-xs font-heading font-bold text-royal tracking-widest uppercase">Visual Gallery</span>
+                <h2 class="font-heading font-extrabold text-3xl sm:text-4xl text-textDark mt-3">Vehicles & Sightseeing Moments</h2>
+                <p class="text-grey text-base mt-4 leading-relaxed">Take a look at our fleet and sightseeing packages. Click on images to view high-quality details.</p>
+            </div>
+
+            <!-- Gallery Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 lg:gap-6" id="gallery-grid">
+                <!-- Photo 1 -->
+                <div class="overflow-hidden rounded-2xl aspect-[4/3] bg-gray-50 border border-gray-100 cursor-pointer shadow-sm relative group" onclick="openLightbox(0)">
+                    <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=400&h=300" alt="Executive White Dzire Sedan" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex justify-center items-center text-white"><i data-lucide="zoom-in" class="w-6 h-6"></i></div>
+                </div>
+
+                <!-- Photo 2 -->
+                <div class="overflow-hidden rounded-2xl aspect-[4/3] bg-gray-50 border border-gray-100 cursor-pointer shadow-sm relative group" onclick="openLightbox(1)">
+                    <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&w=400&h=300" alt="Luxury Innova Crysta Cab" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex justify-center items-center text-white"><i data-lucide="zoom-in" class="w-6 h-6"></i></div>
+                </div>
+
+                <!-- Photo 3 -->
+                <div class="overflow-hidden rounded-2xl aspect-[4/3] bg-gray-50 border border-gray-100 cursor-pointer shadow-sm relative group" onclick="openLightbox(2)">
+                    <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=400&h=300" alt="Clean Toyota Innova Family cab" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex justify-center items-center text-white"><i data-lucide="zoom-in" class="w-6 h-6"></i></div>
+                </div>
+
+                <!-- Photo 4 -->
+                <div class="overflow-hidden rounded-2xl aspect-[4/3] bg-gray-50 border border-gray-100 cursor-pointer shadow-sm relative group" onclick="openLightbox(3)">
+                    <img src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=400&h=300" alt="Ertiga SUV Tourist Vehicle" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex justify-center items-center text-white"><i data-lucide="zoom-in" class="w-6 h-6"></i></div>
+                </div>
+
+                <!-- Photo 5 -->
+                <div class="overflow-hidden rounded-2xl aspect-[4/3] bg-gray-50 border border-gray-100 cursor-pointer shadow-sm relative group" onclick="openLightbox(4)">
+                    <img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=400&h=300" alt="Premium Tourist Sedan Airport cab" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex justify-center items-center text-white"><i data-lucide="zoom-in" class="w-6 h-6"></i></div>
+                </div>
+
+                <!-- Photo 6 -->
+                <div class="overflow-hidden rounded-2xl aspect-[4/3] bg-gray-50 border border-gray-100 cursor-pointer shadow-sm relative group" onclick="openLightbox(5)">
+                    <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=400&h=300" alt="Luxury Honda Sedan" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex justify-center items-center text-white"><i data-lucide="zoom-in" class="w-6 h-6"></i></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =================== TESTIMONIALS SECTION =================== -->
+    <section id="testimonials" class="py-24 bg-[#F8F9FA] border-y border-gray-100 overflow-hidden">
+        <div class="max-w-[1280px] mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-xs font-heading font-bold text-royal tracking-widest uppercase">Client Testimonials</span>
+                <h2 class="font-heading font-extrabold text-3xl sm:text-4xl text-textDark mt-3">What Our Passengers Say</h2>
+                <p class="text-grey text-base mt-4 leading-relaxed">Read reviews from verified travelers who booked our taxi services in Pondicherry & Kottakuppam.</p>
+            </div>
+
+            <!-- Carousel Wrapper -->
+            <div class="relative max-w-3xl mx-auto">
+                <div id="testimonials-container" class="relative flex flex-col items-center">
+                    <!-- Carousel Slide 1 -->
+                    <div class="testimonial-slide w-full bg-white border border-gray-100 p-8 sm:p-12 rounded-3xl shadow-luxury text-center flex flex-col items-center gap-6 animate-scale-in">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&h=120" alt="Arun Kumar" class="w-16 h-16 rounded-full object-cover border-2 border-royal">
+                        <div class="flex gap-0.5 text-cta">
+                            <i data-lucide="star" class="w-4 h-4 fill-cta"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-cta"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-cta"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-cta"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-cta"></i>
+                        </div>
+                        <p class="text-gray-700 text-base sm:text-lg leading-relaxed italic">"Booked an Innova Crysta for our family temple visit. The vehicle was spotless and the driver was extremely polite and cooperative throughout the 3-day trip. Outstanding service!"</p>
+                        <div>
+                            <h4 class="font-heading font-bold text-base text-textDark">Arun Kumar</h4>
+                            <span class="text-xs text-grey">Family Tour Booking</span>
+                        </div>
+                    </div>
+
+                    <!-- Carousel Slide 2 (Hidden by default, switched via app.js) -->
+                    <div class="testimonial-slide w-full bg-white border border-gray-100 p-8 sm:p-12 rounded-3xl shadow-luxury text-center hidden flex-col items-center gap-6 animate-scale-in">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&h=120" alt="Preeti Sharma" class="w-16 h-16 rounded-full object-cover border-2 border-royal">
+                        <div class="flex gap-0.5 text-cta">
+                            <i data-lucide="star" class="w-4 h-4 fill-cta"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-cta"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-cta"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-cta"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-cta"></i>
+                        </div>
+                        <p class="text-gray-700 text-base sm:text-lg leading-relaxed italic">"Highly recommend for airport transfers. The driver arrived 10 minutes early at Kottakuppam and dropped me safely at Chennai Airport. Very transparent billing and reasonable rates."</p>
+                        <div>
+                            <h4 class="font-heading font-bold text-base text-textDark">Preeti Sharma</h4>
+                            <span class="text-xs text-grey">Airport Drop Client</span>
+                        </div>
+                    </div>
+
+                    <!-- Carousel Slide 3 -->
+                    <div class="testimonial-slide w-full bg-white border border-gray-100 p-8 sm:p-12 rounded-3xl shadow-luxury text-center hidden flex-col items-center gap-6 animate-scale-in">
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&h=120" alt="Michael R." class="w-16 h-16 rounded-full object-cover border-2 border-royal">
+                        <div class="flex gap-0.5 text-cta">
+                            <i data-lucide="star" class="w-4 h-4 fill-cta"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-cta"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-cta"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-cta"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-cta"></i>
+                        </div>
+                        <p class="text-gray-700 text-base sm:text-lg leading-relaxed italic">"Perfect sightseeing trip. The driver knew all French Colony streets, restaurants, and Auroville ashram spots. Felt secure and very comfortable. Five stars!"</p>
+                        <div>
+                            <h4 class="font-heading font-bold text-base text-textDark">Michael R.</h4>
+                            <span class="text-xs text-grey">Tourist Traveler</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation arrows -->
+                <div class="flex justify-center gap-4 mt-8">
+                    <button onclick="prevTestimonial()" class="w-11 h-11 border border-gray-200 rounded-full flex justify-center items-center hover:border-royal hover:text-royal transition-all bg-white shadow-sm" aria-label="Previous Review">
+                        <i data-lucide="chevron-left" class="w-5 h-5"></i>
+                    </button>
+                    <button onclick="nextTestimonial()" class="w-11 h-11 border border-gray-200 rounded-full flex justify-center items-center hover:border-royal hover:text-royal transition-all bg-white shadow-sm" aria-label="Next Review">
+                        <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =================== FAQ SECTION =================== -->
+    <section class="py-24 bg-white">
+        <div class="max-w-[800px] mx-auto px-6">
+            <div class="text-center mb-16">
+                <span class="text-xs font-heading font-bold text-royal tracking-widest uppercase">FAQ Support</span>
+                <h2 class="font-heading font-extrabold text-3xl sm:text-4xl text-textDark mt-3">Frequently Asked Questions</h2>
+                <p class="text-grey text-sm mt-4">Have questions about bookings, pricing, or locations? Here are quick answers.</p>
+            </div>
+
+            <!-- FAQ Accordion List -->
+            <div class="flex flex-col gap-4">
+                <!-- Q1 -->
+                <div class="border border-gray-100 rounded-2xl bg-white overflow-hidden shadow-sm">
+                    <button class="w-full px-6 py-5 text-left font-heading font-bold text-base sm:text-lg flex justify-between items-center text-textDark hover:text-royal transition-colors outline-none focus:outline-none" onclick="toggleFAQ(this)">
+                        <span>How do I book a premium cab?</span>
+                        <i data-lucide="plus" class="w-5 h-5 text-grey transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300">
+                        <p class="px-6 pb-5 text-gray-600 text-sm leading-relaxed">
+                            You can easily book online using our Booking Widget, or by completing the Contact Form below. Alternatively, you can directly call us at <a href="tel:+919361469552" class="text-royal font-bold">+91 9361469552</a> or click the WhatsApp button to chat and secure your taxi instantly.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Q2 -->
+                <div class="border border-gray-100 rounded-2xl bg-white overflow-hidden shadow-sm">
+                    <button class="w-full px-6 py-5 text-left font-heading font-bold text-base sm:text-lg flex justify-between items-center text-textDark hover:text-royal transition-colors outline-none focus:outline-none" onclick="toggleFAQ(this)">
+                        <span>Are cabs available 24 Hours?</span>
+                        <i data-lucide="plus" class="w-5 h-5 text-grey transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300">
+                        <p class="px-6 pb-5 text-gray-600 text-sm leading-relaxed">
+                            Yes, our dispatch and taxi operations run 24/7. We provide round-the-clock airport transfers, outstation drives, and emergency pickups in Pondicherry, Kottakuppam, and neighboring areas.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Q3 -->
+                <div class="border border-gray-100 rounded-2xl bg-white overflow-hidden shadow-sm">
+                    <button class="w-full px-6 py-5 text-left font-heading font-bold text-base sm:text-lg flex justify-between items-center text-textDark hover:text-royal transition-colors outline-none focus:outline-none" onclick="toggleFAQ(this)">
+                        <span>Do you provide Chennai Airport pickups & drops?</span>
+                        <i data-lucide="plus" class="w-5 h-5 text-grey transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300">
+                        <p class="px-6 pb-5 text-gray-600 text-sm leading-relaxed">
+                            Yes, Chennai International Airport (MAA) transfer package is one of our primary services. We provide dedicated pickup and drop services with flight tracking to ensure on-time chauffeur placement.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Q4 -->
+                <div class="border border-gray-100 rounded-2xl bg-white overflow-hidden shadow-sm">
+                    <button class="w-full px-6 py-5 text-left font-heading font-bold text-base sm:text-lg flex justify-between items-center text-textDark hover:text-royal transition-colors outline-none focus:outline-none" onclick="toggleFAQ(this)">
+                        <span>What are your payment options?</span>
+                        <i data-lucide="plus" class="w-5 h-5 text-grey transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300">
+                        <p class="px-6 pb-5 text-gray-600 text-sm leading-relaxed">
+                            We support multiple payment methods for your convenience. You can pay via GooglePay/PhonePe UPI apps, bank transfers, credit/debit cards, or settle in cash directly with the chauffeur after your ride completes.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Q5 -->
+                <div class="border border-gray-100 rounded-2xl bg-white overflow-hidden shadow-sm">
+                    <button class="w-full px-6 py-5 text-left font-heading font-bold text-base sm:text-lg flex justify-between items-center text-textDark hover:text-royal transition-colors outline-none focus:outline-none" onclick="toggleFAQ(this)">
+                        <span>Is there a cancellation fee?</span>
+                        <i data-lucide="plus" class="w-5 h-5 text-grey transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300">
+                        <p class="px-6 pb-5 text-gray-600 text-sm leading-relaxed">
+                            No, we do not charge cancellation fees if cancelled at least 3 hours prior to the scheduled pickup time. We believe in building trust and maintaining transparent relations with our clients.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Q6 -->
+                <div class="border border-gray-100 rounded-2xl bg-white overflow-hidden shadow-sm">
+                    <button class="w-full px-6 py-5 text-left font-heading font-bold text-base sm:text-lg flex justify-between items-center text-textDark hover:text-royal transition-colors outline-none focus:outline-none" onclick="toggleFAQ(this)">
+                        <span>When will I receive driver details?</span>
+                        <i data-lucide="plus" class="w-5 h-5 text-grey transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300">
+                        <p class="px-6 pb-5 text-gray-600 text-sm leading-relaxed">
+                            Driver name, contact number, and taxi registration details are sent to you via SMS / WhatsApp 2-3 hours prior to your scheduled pickup time.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =================== CONTACT & FORM SECTION =================== -->
+    <section id="contact" class="py-24 bg-[#F8F9FA] border-t border-gray-100">
+        <div class="max-w-[1280px] mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+                
+                <!-- Contact info Left -->
+                <div class="lg:col-span-5 flex flex-col">
+                    <span class="text-xs font-heading font-bold text-royal tracking-widest uppercase">Get In Touch</span>
+                    <h2 class="font-heading font-extrabold text-3xl sm:text-4xl text-textDark mt-3 mb-6">Contact Operations</h2>
+                    <p class="text-grey text-sm sm:text-base leading-relaxed mb-8">Reach us anytime for quick bookings, outstation quotes, or emergency dispatches. We serve Pondicherry, Kottakuppam, Auroville, and all surrounding areas 24/7.</p>
+                    
+                    <div class="flex flex-col gap-6 mb-8">
+                        <div class="flex items-center gap-4">
+                            <div class="w-11 h-11 bg-royal/10 text-royal rounded-xl flex justify-center items-center"><i data-lucide="phone" class="w-5 h-5"></i></div>
+                            <div>
+                                <div class="text-[10px] text-grey uppercase tracking-wider font-semibold">Call Support</div>
+                                <a href="tel:+919361469552" class="text-lg font-bold text-textDark hover:text-royal transition-colors">+91 9361469552</a>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-11 h-11 bg-emerald/10 text-emerald rounded-xl flex justify-center items-center"><i data-lucide="message-square" class="w-5 h-5"></i></div>
+                            <div>
+                                <div class="text-[10px] text-grey uppercase tracking-wider font-semibold">WhatsApp Chat</div>
+                                <a href="https://wa.me/919361469552" target="_blank" class="text-lg font-bold text-textDark hover:text-emerald transition-colors">+91 9361469552</a>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-11 h-11 bg-royal/10 text-royal rounded-xl flex justify-center items-center"><i data-lucide="map-pin" class="w-5 h-5"></i></div>
+                            <div>
+                                <div class="text-[10px] text-grey uppercase tracking-wider font-semibold">Locations Served</div>
+                                <span class="text-sm font-bold text-textDark">Pondicherry, Kottakuppam, Auroville</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Map placeholder -->
+                    <div class="w-full h-48 bg-gray-200 rounded-3xl overflow-hidden shadow-sm relative border border-gray-100">
+                        <div class="absolute inset-0 bg-[#E5E7EB] flex flex-col justify-center items-center text-center p-4">
+                            <i data-lucide="map" class="w-8 h-8 text-royal mb-2 animate-pulse"></i>
+                            <span class="font-bold text-sm text-textDark">Operations Hub Map</span>
+                            <span class="text-xs text-grey mt-1">Pondicherry-Kottakuppam Border Area</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Right -->
+                <div class="lg:col-span-7 bg-white border border-gray-100 rounded-3xl p-8 shadow-luxury relative overflow-hidden">
+                    <h3 class="font-heading font-extrabold text-2xl text-textDark mb-6">Book Your Trip Online</h3>
+                    
+                    <form id="contact-booking-form" class="space-y-5">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                            <!-- Name -->
+                            <div class="flex flex-col gap-1.5">
+                                <label class="text-xs font-bold text-grey uppercase tracking-wide">Your Name</label>
+                                <input type="text" id="form-name" required class="w-full bg-gray-50 border border-gray-200 text-sm font-medium text-textDark px-4 py-3 rounded-xl focus:border-royal focus:bg-white outline-none transition-all" placeholder="e.g. Syed Aashiq">
+                            </div>
+                            <!-- Phone -->
+                            <div class="flex flex-col gap-1.5">
+                                <label class="text-xs font-bold text-grey uppercase tracking-wide">Phone Number</label>
+                                <input type="tel" id="form-phone" required class="w-full bg-gray-50 border border-gray-200 text-sm font-medium text-textDark px-4 py-3 rounded-xl focus:border-royal focus:bg-white outline-none transition-all" placeholder="e.g. +91 98765 43210">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                            <!-- Pickup -->
+                            <div class="flex flex-col gap-1.5">
+                                <label class="text-xs font-bold text-grey uppercase tracking-wide">Pickup Location</label>
+                                <input type="text" id="form-pickup" required class="w-full bg-gray-50 border border-gray-200 text-sm font-medium text-textDark px-4 py-3 rounded-xl focus:border-royal focus:bg-white outline-none transition-all" placeholder="Address, Landmarks...">
+                            </div>
+                            <!-- Drop -->
+                            <div class="flex flex-col gap-1.5">
+                                <label class="text-xs font-bold text-grey uppercase tracking-wide">Drop Destination</label>
+                                <input type="text" id="form-drop" required class="w-full bg-gray-50 border border-gray-200 text-sm font-medium text-textDark px-4 py-3 rounded-xl focus:border-royal focus:bg-white outline-none transition-all" placeholder="Address, City, Airport...">
+                            </div>
+                        </div>
+
+                        <!-- Message -->
+                        <div class="flex flex-col gap-1.5">
+                            <label class="text-xs font-bold text-grey uppercase tracking-wide">Additional Instructions (Optional)</label>
+                            <textarea id="form-message" rows="4" class="w-full bg-gray-50 border border-gray-200 text-sm font-medium text-textDark px-4 py-3 rounded-xl focus:border-royal focus:bg-white outline-none transition-all resize-none" placeholder="Include dates, vehicle preferences, or custom requirements..."></textarea>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="w-full py-4 bg-cta text-white font-heading font-bold text-center rounded-xl hover:bg-cta-dark transition-all shadow-goldGlow flex justify-center items-center gap-2">
+                            <i data-lucide="check-circle"></i> Submit Booking Reservation
+                        </button>
+                    </form>
+
+                    <!-- Beautiful Booking Success overlay Popup -->
+                    <div id="booking-success-box" class="hidden absolute inset-0 bg-white z-10 flex flex-col justify-center items-center p-8 text-center animate-scale-in">
+                        <div class="w-16 h-16 bg-emerald/10 text-emerald rounded-full flex justify-center items-center mb-6 animate-scale-in">
+                            <i data-lucide="check" class="w-8 h-8"></i>
+                        </div>
+                        <h4 class="font-heading font-extrabold text-2xl text-textDark mb-2">Booking Request Sent!</h4>
+                        <p class="text-grey text-sm max-w-sm leading-relaxed mb-6">
+                            Thank you for booking with Premium Cab Service. Our operational coordinator will contact you via Phone/WhatsApp within 10-15 minutes to finalize details.
+                        </p>
+                        <div class="flex gap-4">
+                            <a href="https://wa.me/919361469552" class="px-6 py-2.5 bg-emerald text-white rounded-lg font-heading font-bold text-xs hover:bg-emerald-dark transition-colors flex items-center gap-1"><i data-lucide="message-square"></i> WhatsApp Direct</a>
+                            <button onclick="resetBookingForm()" class="px-6 py-2.5 border border-gray-200 rounded-lg text-xs font-heading font-semibold hover:border-royal hover:text-royal transition-colors">Book Another Trip</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =================== FOOTER =================== -->
+    <footer class="bg-gray-950 text-gray-400 py-16 border-t border-gray-900">
+        <div class="max-w-[1440px] mx-auto px-6 lg:px-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 mb-12">
+            <!-- Col 1 logo -->
+            <div class="lg:col-span-4 flex flex-col gap-4">
+                <a href="#" class="flex items-center gap-2 font-heading font-extrabold text-2xl text-white tracking-tight">
+                    <i data-lucide="crown" class="w-7 h-7 text-cta"></i>
+                    <span>Premium <span class="text-cta">Cab</span></span>
+                </a>
+                <p class="text-sm leading-relaxed max-w-sm text-gray-500">Premium commercial fleet and personal chauffeur operations in Pondicherry, Kottakuppam & Auroville. Available 24 hours.</p>
+                <div class="flex gap-4 mt-2">
+                    <a href="https://wa.me/919361469552" class="w-9 h-9 bg-gray-900 rounded-full flex justify-center items-center hover:bg-royal hover:text-white transition-colors"><i data-lucide="message-square" class="w-4 h-4"></i></a>
+                    <a href="#" class="w-9 h-9 bg-gray-900 rounded-full flex justify-center items-center hover:bg-royal hover:text-white transition-colors"><i data-lucide="facebook" class="w-4 h-4"></i></a>
+                    <a href="#" class="w-9 h-9 bg-gray-900 rounded-full flex justify-center items-center hover:bg-royal hover:text-white transition-colors"><i data-lucide="instagram" class="w-4 h-4"></i></a>
+                </div>
+            </div>
+
+            <!-- Col 2 quick links -->
+            <div class="lg:col-span-2 flex flex-col gap-4">
+                <h4 class="text-sm font-bold text-white uppercase tracking-wider">Quick Links</h4>
+                <div class="flex flex-col gap-2.5 text-sm font-medium">
+                    <a href="#home" class="hover:text-royal transition-colors">Home</a>
+                    <a href="#services" class="hover:text-royal transition-colors">Services</a>
+                    <a href="#fleet" class="hover:text-royal transition-colors">Fleet Details</a>
+                    <a href="#pricing" class="hover:text-royal transition-colors">Day Packages</a>
+                </div>
+            </div>
+
+            <!-- Col 3 services -->
+            <div class="lg:col-span-3 flex flex-col gap-4">
+                <h4 class="text-sm font-bold text-white uppercase tracking-wider">Services</h4>
+                <div class="flex flex-col gap-2.5 text-sm font-medium">
+                    <a href="#services" class="hover:text-royal transition-colors">Chennai Airport Transfers</a>
+                    <a href="#services" class="hover:text-royal transition-colors">Local French Sightseeing</a>
+                    <a href="#services" class="hover:text-royal transition-colors">Outstation Long Drives</a>
+                    <a href="#services" class="hover:text-royal transition-colors">Wedding Transport Cabs</a>
+                </div>
+            </div>
+
+            <!-- Col 4 Contact info -->
+            <div class="lg:col-span-3 flex flex-col gap-4">
+                <h4 class="text-sm font-bold text-white uppercase tracking-wider">Contact Info</h4>
+                <div class="flex flex-col gap-3.5 text-sm">
+                    <div class="flex items-center gap-2"><i data-lucide="phone" class="w-4 h-4 text-royal flex-shrink-0"></i> <a href="tel:+919361469552" class="hover:text-royal font-semibold text-white transition-colors">+91 9361469552</a></div>
+                    <div class="flex items-center gap-2"><i data-lucide="message-square" class="w-4 h-4 text-emerald flex-shrink-0"></i> <a href="https://wa.me/919361469552" class="hover:text-emerald font-semibold text-white transition-colors">+91 9361469552</a></div>
+                    <div class="flex items-center gap-2"><i data-lucide="map-pin" class="w-4 h-4 text-royal flex-shrink-0"></i> <span class="leading-relaxed">Pondicherry & Kottakuppam</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-[1440px] mx-auto px-6 lg:px-16 border-t border-gray-900 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-600">
+            <span>&copy; 2026 Premium Cab Service. All rights reserved.</span>
+            <div class="flex gap-6">
+                <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- =================== FLOATING WHATSAPP BUTTON =================== -->
+    <a href="https://wa.me/919361469552" target="_blank" class="fixed bottom-6 right-6 z-40 w-14 h-14 bg-emerald text-white rounded-full flex justify-center items-center shadow-lg hover:bg-emerald-dark transition-all duration-300 hover:scale-105 group relative" aria-label="Chat on WhatsApp">
+        <i data-lucide="message-square" class="w-6 h-6 fill-white"></i>
+        <!-- Pulse animation ring -->
+        <span class="absolute inset-0 rounded-full border border-emerald opacity-75 animate-ping -z-10" style="animation-duration: 2s;"></span>
+        <!-- Tooltip -->
+        <span class="absolute right-16 bg-emerald text-white font-semibold text-xs py-1.5 px-3.5 rounded-lg shadow-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none tracking-wide">Chat with us</span>
+    </a>
+
+    <!-- =================== FLOATING CALL NOW BUTTON =================== -->
+    <a href="tel:+919361469552" class="fixed bottom-6 left-6 z-40 w-14 h-14 bg-royal text-white rounded-full flex justify-center items-center shadow-lg hover:bg-royal-dark transition-all duration-300 hover:scale-105 group relative" aria-label="Call Chauffeur">
+        <i data-lucide="phone" class="w-6 h-6"></i>
+        <!-- Pulse ring -->
+        <span class="absolute inset-0 rounded-full border border-royal opacity-75 animate-ping -z-10" style="animation-duration: 2.2s;"></span>
+        <!-- Tooltip -->
+        <span class="absolute left-16 bg-royal text-white font-semibold text-xs py-1.5 px-3.5 rounded-lg shadow-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none tracking-wide">Call Chauffeur</span>
+    </a>
+
+    <!-- =================== BACK TO TOP BUTTON =================== -->
+    <button id="back-to-top" class="fixed bottom-24 right-6 z-40 w-11 h-11 bg-white border border-gray-200 text-textDark rounded-full flex justify-center items-center shadow-md hover:border-royal hover:text-royal transition-all duration-300 opacity-0 scale-75 pointer-events-none" aria-label="Back to Top" onclick="scrollToTop()">
+        <i data-lucide="arrow-up" class="w-5 h-5"></i>
+    </button>
+
+    <!-- =================== GALLERY LIGHTBOX MODAL =================== -->
+    <div id="lightbox-modal" class="fixed inset-0 bg-black/95 z-[9999] hidden justify-center items-center p-4">
+        <!-- Close -->
+        <button onclick="closeLightbox()" class="absolute top-6 right-6 text-white hover:text-cta transition-colors"><i data-lucide="x" class="w-8 h-8"></i></button>
+        <!-- Prev -->
+        <button onclick="prevLightboxImage()" class="absolute left-6 text-white hover:text-royal transition-colors"><i data-lucide="chevron-left" class="w-10 h-10"></i></button>
+        <!-- Image display -->
+        <div class="max-w-4xl max-h-[80vh] flex flex-col justify-center items-center">
+            <img id="lightbox-img" src="" alt="Expanded Gallery" class="max-w-full max-h-[75vh] object-contain rounded-lg">
+            <p id="lightbox-caption" class="text-white/80 text-sm mt-4 font-medium text-center"></p>
+        </div>
+        <!-- Next -->
+        <button onclick="nextLightboxImage()" class="absolute right-6 text-white hover:text-royal transition-colors"><i data-lucide="chevron-right" class="w-10 h-10"></i></button>
+    </div>
+
+    <!-- Script file -->
     <script src="app.js"></script>
 </body>
 </html>
